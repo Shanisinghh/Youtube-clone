@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import axios from 'axios'
+import Navbar from './components/Navbar'
+import { Outlet } from 'react-router-dom'
 function App() {
- const [data, setData] = useState([])
-console.log(data);
+//  const [data, setData] = useState([])
+// console.log(data);
 // useEffect(() => {
 
 //     axios.post("http://localhost:3000/api/login", {
@@ -16,22 +18,23 @@ console.log(data);
 //   });
 // },[])
 
- useEffect(() => {
-    axios.get("http://localhost:3000/api/videos", {
-      withCredentials: true
-    })
-    .then((result) => {
-      console.log(result.data);
-      setData(result.data);
-    })
-    .catch((err) => {
-      console.error("Fetch error:", err.response?.data || err.message);
-    });
-  }, []);
+//  useEffect(() => {
+//     axios.get("http://localhost:3000/api/videos", {
+//       withCredentials: true
+//     })
+//     .then((result) => {
+//       console.log(result.data);
+//       setData(result.data);
+//     })
+//     .catch((err) => {
+//       console.error("Fetch error:", err.response?.data || err.message);
+//     });
+//   }, []);
 
   return (
     <>
-    
+    <Navbar/>
+    <Outlet/>
     </>
   )
 }

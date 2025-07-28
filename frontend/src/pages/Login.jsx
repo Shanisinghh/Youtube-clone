@@ -1,0 +1,252 @@
+
+
+
+import { useDispatch } from "react-redux";
+import axios from "axios";
+import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import { login } from "../redux/userSlice";
+
+function Login() {
+  const [isLogIn, setIsLogin] = useState(true);
+  const [loginPage, setLoginPage] = useState(true);
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [signUpData, setSignUpData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    avatar: "",
+  });
+const dispatch = useDispatch();
+
+  const heading = useRef(null);
+
+  // Fetch videos on mount or after userData changes
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/videos", { withCredentials: true })
+      .then((result) => {
+        console.log(result.data); // Uncomment for debugging
+      })
+      .catch((err) => {
+        console.error("Fetch error:", err.response?.data || err.message);
+      });
+  }, []);
+
+  // Unified form change handlers
+  const handleLoginChange = (e) => {
+    setLoginData({ ...loginData, [e.target.name]: e.target.value });
+  };
+  const handleSignUpChange = (e) => {
+    setSignUpData({ ...signUpData, [e.target.name]: e.target.value });
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/login",
+        loginData,
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      dispatch(login(response.data));
+      setLoginPage(!loginPage);
+      setLoginData({ email: "", password: "" });
+      heading.current.innerText = "User Logged in successfully";
+      heading.current.style.color = "green";
+      // Optionally redirect or update app state here
+    } catch (error) {
+      heading.current.innerText =
+        error.response?.data?.message || error.message || "Login failed";
+      heading.current.style.color = "red";
+    }
+  };
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/register",
+        signUpData,
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      setSignUpData({
+        username: "",
+        email: "",
+        password: "",
+        avatar: "",
+      });
+      heading.current.innerText = "User Registered successfully";
+      heading.current.style.color = "green";
+      // Optionally switch to login mode
+      setTimeout(() => setIsLogin(true), 1200);
+    } catch (error) {
+      heading.current.innerText =
+        error.response?.data?.message || error.message || "Registration failed";
+      heading.current.style.color = "red";
+    }
+  };
+
+  return (
+    <div className="flex justify-center flex-col items-center ">
+      <div className="w-[40vw] p-4 bg-gray-100 rounded-2xl">
+        <h3
+          ref={heading}
+          className="text-2xl text-black font-semibold m-auto text-center mb-2 w-full"
+        >
+          {isLogIn ? "Login" : "Sign Up"}
+        </h3>
+        {isLogIn ? (
+          <form className="flex flex-col gap-2 p-2.5" onSubmit={handleLogin}>
+            <label
+              htmlFor="email"
+              className="text-md font-semibold text-gray-700"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              className="outline-none border border-gray-500 px-2.5 py-1 rounded-md font-semibold"
+              id="email"
+              name="email"
+              value={loginData.email}
+              onChange={handleLoginChange}
+              placeholder="Enter your email"
+              required
+            />
+            <label
+              htmlFor="password"
+              className="text-md font-semibold text-gray-700"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              className="outline-none border border-gray-500 px-2.5 py-1 rounded-md font-semibold"
+              name="password"
+              id="password"
+              value={loginData.password}
+              onChange={handleLoginChange}
+              placeholder="Enter your password"
+              required
+            />
+            <div className="flex justify-center gap-2.5 items-center">
+            { loginPage? (<button
+                type="submit"
+                className="text-white w-63 py-1 bg-green-700 cursor-pointer mt-2.5 rounded-md outline-none border border-gray-300 hover:bg-green-600"
+              >
+                Login
+              </button>):(<Link to="/">
+                {" "}
+                <button
+                  type="submit"
+                  className="text-white w-43 py-1 bg-green-700 cursor-pointer mt-2.5 rounded-md outline-none border border-gray-300 hover:bg-green-600"
+                >
+                  Go to Home
+                </button>
+              </Link>)}
+              <div
+                onClick={() => setIsLogin(false)}
+                className="text-blue-700 font-semibold cursor-pointer mt-1.5 hover:text-blue-900 hover:underline "
+              >
+                Go to SignUP
+              </div>
+            </div>
+          </form>
+        ) : (
+          <form
+            className="flex flex-col gap-2  p-2.5"
+            onSubmit={handleSignUp}
+            autoComplete="off"
+          >
+            <label
+              htmlFor="username"
+              className="text-md font-semibold text-gray-700"
+            >
+              UserName
+            </label>
+            <input
+              type="text"
+              className="outline-none border border-gray-500 px-2.5 py-1 rounded-md font-semibold"
+              id="username"
+              name="username"
+              value={signUpData.username}
+              onChange={handleSignUpChange}
+              placeholder="Enter your username"
+              required
+            />
+            <label
+              htmlFor="email"
+              className="text-md font-semibold text-gray-700"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              className="outline-none border border-gray-500 px-2.5 py-1 rounded-md font-semibold"
+              id="email"
+              name="email"
+              value={signUpData.email}
+              onChange={handleSignUpChange}
+              placeholder="Enter your email"
+              required
+            />
+            <label
+              htmlFor="password"
+              className="text-md font-semibold text-gray-700"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              className="outline-none border border-gray-500 px-2.5 py-1 rounded-md font-semibold"
+              name="password"
+              id="password"
+              value={signUpData.password}
+              onChange={handleSignUpChange}
+              placeholder="Enter your password"
+              required
+            />
+            <label
+              htmlFor="userImage"
+              className="text-md font-semibold text-gray-700"
+            >
+              User Image
+            </label>
+            <input
+              type="text"
+              className="outline-none border border-gray-500 px-2.5 py-1 rounded-md font-semibold"
+              name="avatar"
+              id="userImage"
+              value={signUpData.avatar}
+              onChange={handleSignUpChange}
+              placeholder="Paste your image URL"
+            />
+            <div className="flex justify-center gap-2.5 items-center">
+              <button
+                type="submit"
+                className="text-white w-63 py-1 bg-green-700 cursor-pointer mt-2.5 rounded-md outline-none border border-gray-300 hover:bg-green-600"
+              >
+                SignUp
+              </button>
+              <div
+                onClick={() => setIsLogin(true)}
+                className="text-blue-700 font-semibold cursor-pointer mt-1.5 hover:text-blue-900 hover:underline "
+              >
+                Go to Login
+              </div>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default Login;
