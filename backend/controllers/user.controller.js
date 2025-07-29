@@ -39,6 +39,8 @@ export async function userRegister(req, res) {
   }
 }
 
+
+
 export async function userLogin(req, res) {
   try {
     const { email, password } = req.body;
@@ -61,7 +63,7 @@ export async function userLogin(req, res) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "30s",
+      expiresIn: "30m",
     });
     res.cookie("token", token)
     return res.status(200).json({ message: "Login successful", user, token });
@@ -73,56 +75,44 @@ export async function userLogin(req, res) {
   }
 }
 
+export async function fetchUser(req, res) {
+try {
+   const userId = req.user.id; 
+   console.log(userId);
+    const user = await User.findById(userId).select("-password").populate("channels","channelName description channelBanner videos owner");
+    console.log(user);
+  return res.status(200).json({ message: "Fetch user", user }); 
+} catch (error) {
+  return res.status(500).json({ message: "Internal server error", error: error.message });
+}
+}
 
+export async function updateUaer(req, res) {
+try {
+    const userId = req.user._id;
+    const channelId = req.params.channelId;
+    console.log("userId",userId);
+    console.log("channelId",channelId);
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        $push: { channels: channelId },
+        // Prevents duplicates
+      },
+      { new: true }
+    );
+    return res.status(200).json({ message: "User updated successfully", updatedUser });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+}
 
-
-   
-
-// import { User } from "../models/user.model.js";
-// import bcrypt from "bcrypt";
-// import jwt from "jsonwebtoken";
-
-// // Function to handle user registration
-// export async function userRegister(req, res) {
-//    const { username, email, password, avatar, channels } = req.body;
-//   if (!username || !email || !password) {
-//     return res.status(400).json({ message: "All fields are required" });
-//   }
-//   const hashedPassword = await bcrypt.hash(password, 10);
-//   User.insertOne({ username, email, password: hashedPassword,avatar, channels  })
-//     .then((user) => {
-//       res.status(200).json({ message: "User registered successfully", user });
-//     })
-//     .catch((err) => {
-//       res.status(400).json({ message: "User already exists" });
-//     });
-// }
-
-// // Function to handle user login
-// export function userLogin(req, res) {
-//   const { email, password } = req.body;
-
-//   User.findOne({ email: email })
-//     .then((user) => {
-//       if (user) {
-//         bcrypt.compare(password, user.password).then((result) => {
-//           if (result) {
-//             const token = jwt.sign(
-//               { email, password },
-//              " process.env.SECRET_KEY",
-//               { expiresIn: "1200m" }
-//             );
-//             res.cookie("token", token);
-//             res.status(200).json({ message: "Login successful", user });
-//           } else {
-//             res.status(401).json({ message: "Invalid password" });
-//           }
-//         });
-//       } else {
-//         res.status(404).json({ message: "User not found" });
-//       }
-//     })
-//     .catch((err) => {
-//       res.status(500).json({ message: "Server error", error: err.message });
-//     });
-// }
+export function logout(req, res) {
+try {
+    const token = ""
+     res.cookie("token", token)
+  return res.status(200).json({ message: "Logout successful" });
+} catch (error) {
+  return res.status(500).json({ message: "Internal server error", error: error.message });
+}
+}

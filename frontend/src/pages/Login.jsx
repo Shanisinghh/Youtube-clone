@@ -1,6 +1,3 @@
-
-
-
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
@@ -17,7 +14,7 @@ function Login() {
     password: "",
     avatar: "",
   });
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const heading = useRef(null);
 
@@ -41,7 +38,21 @@ const dispatch = useDispatch();
     setSignUpData({ ...signUpData, [e.target.name]: e.target.value });
   };
 
-  const handleLogin = async (e) => {
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/user", {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log("User info:", res.data.user.avatar);
+        dispatch(login(res.data));
+      })
+      .catch((err) => {
+        console.error("Error fetching user:", err);
+      });
+  }, [loginData]);
+
+  async function handleLogin(e) {
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -52,20 +63,18 @@ const dispatch = useDispatch();
           withCredentials: true,
         }
       );
-      dispatch(login(response.data));
+
       setLoginPage(!loginPage);
       setLoginData({ email: "", password: "" });
       heading.current.innerText = "User Logged in successfully";
       heading.current.style.color = "green";
-      // Optionally redirect or update app state here
     } catch (error) {
-      heading.current.innerText =
-        error.response?.data?.message || error.message || "Login failed";
+      heading.current.innerText =  error.response?.data?.message || error.message;
       heading.current.style.color = "red";
     }
-  };
+  }
 
-  const handleSignUp = async (e) => {
+  async function handleSignUp(e) {
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -88,10 +97,10 @@ const dispatch = useDispatch();
       setTimeout(() => setIsLogin(true), 1200);
     } catch (error) {
       heading.current.innerText =
-        error.response?.data?.message || error.message || "Registration failed";
+        error.response?.data?.message || error.message ;
       heading.current.style.color = "red";
     }
-  };
+  }
 
   return (
     <div className="flex justify-center flex-col items-center ">
@@ -137,20 +146,24 @@ const dispatch = useDispatch();
               required
             />
             <div className="flex justify-center gap-2.5 items-center">
-            { loginPage? (<button
-                type="submit"
-                className="text-white w-63 py-1 bg-green-700 cursor-pointer mt-2.5 rounded-md outline-none border border-gray-300 hover:bg-green-600"
-              >
-                Login
-              </button>):(<Link to="/">
-                {" "}
+              {loginPage ? (
                 <button
                   type="submit"
-                  className="text-white w-43 py-1 bg-green-700 cursor-pointer mt-2.5 rounded-md outline-none border border-gray-300 hover:bg-green-600"
+                  className="text-white w-63 py-1 bg-green-700 cursor-pointer mt-2.5 rounded-md outline-none border border-gray-300 hover:bg-green-600"
                 >
-                  Go to Home
+                  Login
                 </button>
-              </Link>)}
+              ) : (
+                <Link to="/">
+                  {" "}
+                  <button
+                    type="submit"
+                    className="text-white w-43 py-1 bg-green-700 cursor-pointer mt-2.5 rounded-md outline-none border border-gray-300 hover:bg-green-600"
+                  >
+                    Go to Home
+                  </button>
+                </Link>
+              )}
               <div
                 onClick={() => setIsLogin(false)}
                 className="text-blue-700 font-semibold cursor-pointer mt-1.5 hover:text-blue-900 hover:underline "

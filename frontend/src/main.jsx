@@ -7,11 +7,13 @@ import Login from './pages/Login.jsx';
 import { RouterProvider } from 'react-router-dom';
 import { store } from './redux/store.js';
 import { Provider } from 'react-redux';
+import Chennel from './pages/channel.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route  path="/" element={<App />}>
       <Route path='/login' element={<Login/>}/>
+      <Route path='/chennel' element={<Chennel/>}/>
     </Route>
   )
 );
