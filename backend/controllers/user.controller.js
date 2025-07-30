@@ -79,7 +79,7 @@ export async function fetchUser(req, res) {
 try {
    const userId = req.user.id; 
    console.log(userId);
-    const user = await User.findById(userId).select("-password").populate("channels","channelName description channelBanner videos owner");
+    const user = await User.findById(userId).select("-password").populate("channels","channelName description channelBanner videos owner subscribers");
     console.log(user);
   return res.status(200).json({ message: "Fetch user", user }); 
 } catch (error) {

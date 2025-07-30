@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
-
+body{
+    background-color: white;
+}
 .myscrolbar {
     scrollbar-width: 0px; 
 }

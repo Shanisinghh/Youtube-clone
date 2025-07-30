@@ -20,9 +20,6 @@ function Login() {
 
   const heading = useRef(null);
 
-
-
-  // Unified form change handlers
   const handleLoginChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
@@ -30,6 +27,7 @@ function Login() {
     setSignUpData({ ...signUpData, [e.target.name]: e.target.value });
   };
 
+  // this function will fetch the user from the backend
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/user", {
@@ -43,6 +41,7 @@ function Login() {
       });
   }, [loginData]);
 
+  // this function will login the user
   async function handleLogin(e) {
     e.preventDefault();
     try {
@@ -54,7 +53,6 @@ function Login() {
           withCredentials: true,
         }
       );
-
       setLoginPage(!loginPage);
       setLoginData({ email: "", password: "" });
       if (heading.current) {
@@ -63,16 +61,17 @@ function Login() {
       }
       toast.success("User Logged in successfully");
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "Something went wrong";
+      const errorMessage =
+        error.response?.data?.message || "Something went wrong";
       if (heading.current) {
         heading.current.innerText = errorMessage;
         heading.current.style.color = "red";
       }
-
       toast.error(errorMessage); // Display the same message in the toast
     }
   }
 
+  // this function will register the user
   async function handleSignUp(e) {
     e.preventDefault();
     try {
@@ -90,15 +89,16 @@ function Login() {
         password: "",
         avatar: "",
       });
-    if (heading.current) {
-      heading.current.innerText = "User Registered successfully";
-      heading.current.style.color = "green";
-    }
+      if (heading.current) {
+        heading.current.innerText = "User Registered successfully";
+        heading.current.style.color = "green";
+      }
       toast.success("User Registered successfully");
       // Optionally switch to login mode
-      setTimeout(() => setIsLogin(true), 1200);
+      setTimeout(() => setIsLogin(true), 1000);
     } catch (error) {
-      const errorMessage = error.response?.data?.message || error.message || "Registration failed";
+      const errorMessage =
+        error.response?.data?.message || error.message || "Registration failed";
       if (heading.current) {
         heading.current.innerText = errorMessage;
         heading.current.style.color = "red";

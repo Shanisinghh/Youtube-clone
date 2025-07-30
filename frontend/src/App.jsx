@@ -1,21 +1,23 @@
-import { useEffect, useState } from 'react'
-import './App.css'
-import axios from 'axios'
-import Navbar from './components/Navbar'
-import { Outlet } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
+import { useEffect, useState } from "react";
+import "./App.css";
+import axios from "axios";
+import Navbar from "./components/Navbar";
+import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 function App() {
-
-
   return (
     <>
-   <ToastContainer position="top-right" autoClose={2000} theme="light" className="toast-container" />
-    <Navbar/>
-    <Outlet/>
-
+      <ToastContainer
+        position="top-left"
+        autoClose={1700}
+        theme="light"
+        className=""
+      />
+      <Navbar />
+      <Outlet />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

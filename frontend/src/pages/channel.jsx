@@ -3,6 +3,9 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { login } from "../redux/userSlice";
+import { useEffect } from "react";
 
 function Chennel() {
   const [isViewChannel, setIsViewChannel] = useState(true);
@@ -13,21 +16,26 @@ function Chennel() {
     channelBanner: "",
   });
 
+  const dispatch = useDispatch();
+
   console.log(channelData);
   const channelHeading = useRef(null);
-  // async function getChannels() {
 
-  // const res = await axios.get(
-  //     "http://localhost:3000/api/channels",
-  //     {
-  //       headers: { "Content-Type": "application/json" },
-  //       withCredentials: true,
-  //     }
-  //   );
-  //   console.log(res.data.channels);
-  // }
-  // getChannels();
+  //fetch user from backend
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/user", {
+        withCredentials: true,
+      })
+      .then((res) => {
+        dispatch(login(res.data));
+      })
+      .catch((err) => {
+        console.error("Error fetching user:", err);
+      });
+  }, [isViewChannel]);
 
+  // this function will create the channel
   async function handleChannel(e) {
     e.preventDefault();
     try {
@@ -39,7 +47,7 @@ function Chennel() {
           withCredentials: true,
         }
       );
-      console.log(response.data.channel._id);
+      setIsViewChannel(!isViewChannel);
       await axios.put(
         `http://localhost:3000/api/user/${response.data.channel._id}`,
         {},
@@ -48,14 +56,10 @@ function Chennel() {
           withCredentials: true,
         }
       );
-      setIsViewChannel(!isViewChannel);
-      // console.log({ "channelId": `${response.data.channel._id}` });
-
       if (channelHeading.current) {
         channelHeading.current.innerText = "Channel created successfully";
         channelHeading.current.style.color = "green";
       }
-
       toast.success("Channel created successfully");
       setChennelData({ channelName: "", description: "", channelBanner: "" });
     } catch (error) {
@@ -136,7 +140,7 @@ function Chennel() {
             required
           />
 
-          <div className="flex justify-center gap-2.5 items-center">
+          <div className="flex justify-center gap-2 items-center">
             {isViewChannel ? (
               <button
                 type="submit"

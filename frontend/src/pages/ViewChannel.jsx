@@ -2,12 +2,18 @@ import React from "react";
 import Sidebar from "../components/Sidebar";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 function ViewChannel() {
+
+ 
+
+
   const [videos, setVideos] = useState([]);
   const userData = JSON.parse(localStorage.getItem("user"));
   console.log(videos);
-  console.log(userData?.user?._id);
+  console.log(userData?.user);
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/videos", { withCredentials: true })
@@ -39,7 +45,7 @@ function ViewChannel() {
           <div className="w-full">
             <img
               src={userData?.user?.channels[0]?.channelBanner} // ← Use your uploaded banner URL or host locally
-              alt="Zee TV Banner"
+              alt="channel Banner"
               className="w-[99%] m-auto  rounded-2xl h-[170px] object-cover"
             />
           </div>
@@ -55,7 +61,7 @@ function ViewChannel() {
                 <span className="text-black/60">✔</span>
               </h1>
               <p className="text-gray-600 text-sm">
-                {userData?.user?.channels[0]?.subscribers} 0 subscribers ·{" "}
+                {userData?.user?.channels[0]?.subscribers}  subscribers ·{" "}
                 {filteredVideos.length} videos
               </p>
               <p className="text-gray-700 text-sm max-w-xl mt-1">
@@ -68,21 +74,23 @@ function ViewChannel() {
           </div>
           <div>
             <h1 className="text-xl font-semibold px-4 py-2">Videos</h1>
-            <div className="flex flex-wrap gap-4 px-2 py-2">
+            <div className="flex flex-wrap gap-1 py-2">
               {
                 filteredVideos.map((video) => (
-                  <div className="bg-gray-100 w-66 p-1 rounded-lg">
+                  <Link to={`/video/${video._id}`}>
+                   <div className=" w-66 p-1 shadow-sm rounded-lg">
                     <img
                       className="w-66 h-35 object-cover rounded-lg mb-2"
                       src={video.thumbnailUrl}
                       alt=""
                     />
-                    <h2 className="text-md font-semibold line-clamp-1">{video.title}</h2>
-                    <p className="text-gray-600 text-sm line-clamp-1">{video.description}</p>
-                    <p className="text-gray-600 text-sm">
+                    <h2 className="text-[16px] font-semibold line-clamp-1">{video.title}</h2>
+                    <p className="text-[#636262]  text-sm line-clamp-1">{video.description}</p>
+                    <p className="text-[#636262] text-sm">
                       {video.views} views · {new Date(video.uploadDate).toLocaleString().split(",")[0]}
                     </p>
                   </div>
+                  </Link>
                 ))
               }
             </div>

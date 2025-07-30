@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     user: null,
+    userVideos: [],
 
 
 };
@@ -13,15 +14,19 @@ export const userSlice = createSlice({
     reducers: {
         login: (state, action) => {
             state.user = action.payload;
-             document,localStorage.setItem("user",JSON.stringify(action.payload));
+            localStorage.setItem("user", JSON.stringify(action.payload));
         },
         logout: (state) => {
             state.user = null;
         },
+        setAllVideos: (state, action) => {
+            state.userInput = action.payload;
+        },
+
 
     },
 });
 
-export const { login, logout, } = userSlice.actions;
+export const { login, logout ,setAllVideos} = userSlice.actions;
 
 export default userSlice.reducer;

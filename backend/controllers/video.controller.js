@@ -15,7 +15,7 @@ export async function cretevideo(req, res) {
 
 export async function fetchVideos(req, res) {
   try {
-    const allVideos = await Video.find().populate("uploader", "username avatar").populate("channelId", "channelName").populate("comments", "text userId timestamp");
+    const allVideos = await Video.find().populate("uploader", "username avatar").populate("channelId", "channelName subscribers").populate("comments", "text userId timestamp");
     if(!allVideos){
       return res.status(400).json({message:"Something went wrong"})
     }

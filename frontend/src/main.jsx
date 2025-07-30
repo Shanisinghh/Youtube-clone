@@ -10,6 +10,8 @@ import { Provider } from 'react-redux';
 import Chennel from './pages/channel.jsx';
 import ViewChannel from './pages/ViewChannel.jsx';
 import Home from './pages/Home.jsx';
+import UploadVideo from './pages/UplodeVideo.jsx';
+import Video from './pages/VideoPlayer.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,6 +20,8 @@ const router = createBrowserRouter(
       <Route path='/login' element={<Login/>}/>
       <Route path='/chennel' element={<Chennel/>}/>
       <Route path='/viewchannel' element={<ViewChannel/>}/>
+      <Route path='/uploadvideo' element={<UploadVideo/>}/>
+      <Route path='/video/:videoId' element={<Video/>}/>
     </Route>
   )
 );
