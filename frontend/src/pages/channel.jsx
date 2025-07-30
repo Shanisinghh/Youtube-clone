@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useRef } from "react";
+import { toast } from "react-toastify";
 
 function Chennel() {
   const [isViewChannel, setIsViewChannel] = useState(true);
@@ -50,13 +51,21 @@ function Chennel() {
       setIsViewChannel(!isViewChannel);
       // console.log({ "channelId": `${response.data.channel._id}` });
 
-      channelHeading.current.innerText = "Channel Created successfully";
-      channelHeading.current.style.color = "green";
+      if (channelHeading.current) {
+        channelHeading.current.innerText = "Channel created successfully";
+        channelHeading.current.style.color = "green";
+      }
+
+      toast.success("Channel created successfully");
       setChennelData({ channelName: "", description: "", channelBanner: "" });
     } catch (error) {
-      channelHeading.current.innerText =
+      const errorMessage =
         error.response?.data?.message || error.message || "Registration failed";
-      channelHeading.current.style.color = "red";
+      if (channelHeading.current) {
+        channelHeading.current.innerText = errorMessage;
+        channelHeading.current.style.color = "red";
+      }
+      toast.error(errorMessage);
     }
   }
 
@@ -66,10 +75,10 @@ function Chennel() {
 
   return (
     <>
-      <div className="w-[40vw] p-4 bg-gray-100 rounded-2xl m-auto">
+      <div className="w-[40vw] mt-17 p-4 bg-gray-100  rounded-2xl m-auto">
         <h3
           ref={channelHeading}
-          className="text-2xl text-black font-semibold m-auto text-center mb-2 w-full"
+          className="text-2xl text-black font-bold m-auto text-center mb-2 w-full"
         >
           Fill channel details
         </h3>
@@ -137,7 +146,7 @@ function Chennel() {
               </button>
             ) : (
               <Link
-                to="#"
+                to="/viewchannel"
                 className="inline-block text-white w-64 text-center py-1 bg-green-700 cursor-pointer mt-2.5 rounded-md outline-none border border-gray-300 hover:bg-green-600"
               >
                 View Channel

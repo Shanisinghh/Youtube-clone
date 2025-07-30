@@ -7,13 +7,15 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+
+
 function Navbar() {
   // const [user , setUser] = useState(null);
   const user = useSelector((state) => state.user.user);
   const loginPage = Boolean(user);
   const channelPage = Boolean(user?.user?.channels.length > 0);
-  // console.log(user.user.channels);
-    // const viewChannelPage = Boolean(user);
+  console.log("user",user);
 
   async function handleLogout() {
     try {
@@ -23,10 +25,24 @@ function Navbar() {
         { withCredentials: true }
       );
       console.log(result.data);
-      window.location.reload();
+      toast.success("User logout successfully");
+
     } catch (err) {
       console.error("Fetch error:", err.response?.data || err.message);
     }
+  }
+
+  const [toggle, setToggle] = useState(false);
+  function handleMenu() {
+    const menu = document.getElementById("sidebar");
+    const main = document.getElementById("main");
+    if (!toggle) {
+      main.style.width = "100vw";
+    } else {
+      main.style.width = "80vw";
+    }
+    setToggle(!toggle);
+    menu.classList.toggle("hidden");
   }
 
   //  function create (){
@@ -50,13 +66,15 @@ function Navbar() {
 
   return (
     <>
-      <div className="flex justify-between py-3 px-6 bg-white">
+      <div className="flex fixed top-0 left-0 right-0 justify-between py-3 px-6 bg-white">
         <div className="flex  items-center ">
-          <div className="mr-3 cursor-pointer">
+          <div onClick={handleMenu} className="mr-3 cursor-pointer">
             <LuMenu className="text-2xl " />
           </div>
           <div className="cursor-pointer">
-            <img src={logo} alt="logo" className="w-28" />
+            <Link to={"/"}>
+             <img src={logo} alt="logo" className="w-28" />
+            </Link>
           </div>
         </div>
         <div className="flex items-center">
@@ -75,7 +93,7 @@ function Navbar() {
              <button className="flex items-center gap-2 bg-gray-100 py-1.5 px-3 rounded-3xl outline-none border border-gray-300  font-semibold cursor-pointer hover:bg-gray-200">
             Create chennel
           </button>
-         </Link>):( <Link to="/chennel">
+         </Link>):( <Link to="/viewchannel">
              <button className="flex items-center gap-2 bg-gray-100 py-1.5 px-3 rounded-3xl outline-none border border-gray-300  font-semibold cursor-pointer hover:bg-gray-200">
             View chennel
           </button>
@@ -89,13 +107,13 @@ function Navbar() {
                   className=" h-9 rounded-full"
                   alt=""
                 />{" "}
-                Login
+                Sign in
               </button>
             </Link>
           ) : (
             <Link to="/login">
               <button
-                className="flex text-red-700 pr-2.5 items-center gap-2 bg-gray-100  rounded-3xl outline-none border border-gray-300  font-semibold cursor-pointer hover:bg-gray-200"
+                className="flex text-[red] pr-2.5 items-center gap-2 bg-gray-100  rounded-3xl outline-none border border-gray-300  font-semibold cursor-pointer hover:bg-gray-200"
                 onClick={handleLogout}
               >
                 <img
@@ -103,7 +121,7 @@ function Navbar() {
                   className=" h-9 rounded-full"
                   alt=""
                 />{" "}
-                LogOut
+                Log out
               </button>
             </Link>
           )}

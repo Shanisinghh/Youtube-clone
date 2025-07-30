@@ -3,6 +3,8 @@ import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { login } from "../redux/userSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const [isLogIn, setIsLogin] = useState(true);
@@ -18,17 +20,7 @@ function Login() {
 
   const heading = useRef(null);
 
-  // Fetch videos on mount or after userData changes
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/videos", { withCredentials: true })
-      .then((result) => {
-        console.log(result.data); // Uncomment for debugging
-      })
-      .catch((err) => {
-        console.error("Fetch error:", err.response?.data || err.message);
-      });
-  }, []);
+
 
   // Unified form change handlers
   const handleLoginChange = (e) => {
@@ -44,7 +36,6 @@ function Login() {
         withCredentials: true,
       })
       .then((res) => {
-        console.log("User info:", res.data.user.avatar);
         dispatch(login(res.data));
       })
       .catch((err) => {
@@ -66,11 +57,19 @@ function Login() {
 
       setLoginPage(!loginPage);
       setLoginData({ email: "", password: "" });
-      heading.current.innerText = "User Logged in successfully";
-      heading.current.style.color = "green";
+      if (heading.current) {
+        heading.current.innerText = "User Logged in successfully";
+        heading.current.style.color = "green";
+      }
+      toast.success("User Logged in successfully");
     } catch (error) {
-      heading.current.innerText =  error.response?.data?.message || error.message;
-      heading.current.style.color = "red";
+      const errorMessage = error.response?.data?.message || "Something went wrong";
+      if (heading.current) {
+        heading.current.innerText = errorMessage;
+        heading.current.style.color = "red";
+      }
+
+      toast.error(errorMessage); // Display the same message in the toast
     }
   }
 
@@ -91,25 +90,31 @@ function Login() {
         password: "",
         avatar: "",
       });
+    if (heading.current) {
       heading.current.innerText = "User Registered successfully";
       heading.current.style.color = "green";
+    }
+      toast.success("User Registered successfully");
       // Optionally switch to login mode
       setTimeout(() => setIsLogin(true), 1200);
     } catch (error) {
-      heading.current.innerText =
-        error.response?.data?.message || error.message ;
-      heading.current.style.color = "red";
+      const errorMessage = error.response?.data?.message || error.message || "Registration failed";
+      if (heading.current) {
+        heading.current.innerText = errorMessage;
+        heading.current.style.color = "red";
+      }
+      toast.error(errorMessage); // Display the same message in the toast
     }
   }
 
   return (
-    <div className="flex justify-center flex-col items-center ">
+    <div className="flex justify-center mt-17 flex-col items-center ">
       <div className="w-[40vw] p-4 bg-gray-100 rounded-2xl">
         <h3
           ref={heading}
-          className="text-2xl text-black font-semibold m-auto text-center mb-2 w-full"
+          className="text-2xl text-black font-bold m-auto text-center mb-2 w-full"
         >
-          {isLogIn ? "Login" : "Sign Up"}
+          {isLogIn ? "LogIn" : "SignUp"}
         </h3>
         {isLogIn ? (
           <form className="flex flex-col gap-2 p-2.5" onSubmit={handleLogin}>
@@ -151,7 +156,7 @@ function Login() {
                   type="submit"
                   className="text-white w-63 py-1 bg-green-700 cursor-pointer mt-2.5 rounded-md outline-none border border-gray-300 hover:bg-green-600"
                 >
-                  Login
+                  Log in
                 </button>
               ) : (
                 <Link to="/">
@@ -168,13 +173,13 @@ function Login() {
                 onClick={() => setIsLogin(false)}
                 className="text-blue-700 font-semibold cursor-pointer mt-1.5 hover:text-blue-900 hover:underline "
               >
-                Go to SignUP
+                Go to SignUp
               </div>
             </div>
           </form>
         ) : (
           <form
-            className="flex flex-col gap-2  p-2.5"
+            className="flex flex-col gap-2 p-2.5"
             onSubmit={handleSignUp}
             autoComplete="off"
           >
@@ -252,7 +257,7 @@ function Login() {
                 onClick={() => setIsLogin(true)}
                 className="text-blue-700 font-semibold cursor-pointer mt-1.5 hover:text-blue-900 hover:underline "
               >
-                Go to Login
+                Go to LogIn
               </div>
             </div>
           </form>

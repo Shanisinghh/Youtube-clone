@@ -5,7 +5,7 @@ export async function verifyToken(req, res, next) {
   try {
     const token = req.cookies.token;
     if (!token) {
-      return res.status(401).json({ message: "Unauthorized user: No token" });
+      return res.status(401).json({ message: "Unauthorized user: please login" });
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(decoded.userId).select("-password");

@@ -4,7 +4,7 @@ import { verifyToken } from "../middleware/authMiddleware.js";
 
 
 export function vedioRoute(app) {
-    app.get("/api/videos",verifyToken, fetchVideos);
+    app.get("/api/videos", fetchVideos);
     app.post("/api/videos",verifyToken, cretevideo);
     app.put("/api/videos/:videoId", updateVideo);
     app.delete("/api/videos/:videoId", deleteVedio);
