@@ -118,7 +118,7 @@ function Video() {
             </h2>
           </div>
           <div>
-            <p className="text-gray-600 text-sm mt-2 line-clamp-1">
+            <p className="text-gray-600 text-sm  line-clamp-1">
               {video?.description}
             </p>
             <p className="text-gray-600 text-sm">

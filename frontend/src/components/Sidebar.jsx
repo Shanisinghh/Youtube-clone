@@ -177,7 +177,7 @@ function Sidebar() {
   return (
     <div
       id="sidebar"
-      className="myscrolbar fixed  left-0  md:left-[0px] md:px-4 px-2   h-[100%] overflow-y-scroll hide-scrollbar overflow-x-hidden "
+      className="myscrolbar fixed  left-0  md:left-[0px] md:px-4 px-2 hidden mdd:block md:block  h-[100%] overflow-y-scroll hide-scrollbar overflow-x-hidden "
     >
       {/* Home */}
       <Link to="/">

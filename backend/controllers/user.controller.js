@@ -63,7 +63,7 @@ export async function userLogin(req, res) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "30m",
+      expiresIn: "10d",
     });
     res.cookie("token", token)
     return res.status(200).json({ message: "Login successful", user, token });
