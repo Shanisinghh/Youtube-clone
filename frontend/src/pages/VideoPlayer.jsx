@@ -275,7 +275,35 @@ function Video() {
           </div>
         </div>
         <div className="w-[34%] mt-2.5 pl-6 flex flex-col gap-3 overflow-y-scroll  max-h-[150vh]">
-
+          {videos?.map((video) => (
+            <Link to={`/video/${video?._id}`}>
+              <div key={video?._id} className="flex  gap-3">
+                <div className="w-[40%]  h-[17vh]">
+                  <img
+                    src={video?.thumbnailUrl}
+                    alt=""
+                    className="w-full h-full rounded-md"
+                  />
+                </div>
+                <div className="w-[60%]">
+                  <h2 className="text-md line-clamp-2 font-semibold">
+                    {video?.title}
+                  </h2>
+                  <p className="text-sm text-gray-500">
+                    {video?.channelId?.channelName}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    {video?.views} views |{" "}
+                    {video?.uploadDate
+                      ?.split("T")[0]
+                      .split("-")
+                      .reverse()
+                      .join("-")}
+                  </p>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </>

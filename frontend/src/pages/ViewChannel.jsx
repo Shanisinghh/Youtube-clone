@@ -26,11 +26,6 @@ function ViewChannel() {
       });
   }, []);
 
-  //   for (let i = 0; i < videos.length; i++) {
-  //     console.log(videos[i]?.uploader?._id);
-
-  //     console.log(filteredVideos);
-  //   }
   const filteredVideos = videos.filter(
     (video) => video?.uploader?._id == userData?.user?._id
   );
