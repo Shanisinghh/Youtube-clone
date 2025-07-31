@@ -17,6 +17,7 @@ function Video() {
   const [commentInput, setCommentInput] = useState("");
   const [comments, setComments] = useState([]);
   const [togle, setTogle] = useState(false);
+  const [allVideos, setAllVideos] = useState([]);
 
   const videos = useSelector((state) => state.user.userInput);
   const user =
@@ -25,6 +26,19 @@ function Video() {
   // console.log(user?.user);
 
   const { videoId } = useParams();
+
+  useEffect(()=>{
+    axios.get(`http://localhost:3000/api/videos/`, {
+      withCredentials: true,
+    }).then((response) => {
+      setAllVideos(response?.data?.allVideos);
+    }).catch((error) => {
+      console.error(
+        "Error fetching comments:",
+        error.response?.data || error.message
+      );
+    })
+  },[])
 
   useEffect(() => {
     axios
@@ -91,7 +105,7 @@ function Video() {
 
   return (
     <>
-      <div className="mt-16  flex pb-5">
+      <div className="mt-16  flex pb-23">
         <div className="w-[64%] ml-7 mt-2.5   h-[100vh]">
           <div>
             <video controls width="100%" className="rounded-lg  shadow-lg">
@@ -121,7 +135,7 @@ function Video() {
                     alt=""
                   />
                 </div>
-                <div className="flex  w-[60%]  md:gap-0 md:flex-col">
+                <div className="flex  md:gap-0 md:flex-col">
                   <h3 className="text-md  font-semibold">
                     {" "}
                     {video?.channelId?.channelName || video?.uploader?.username}
@@ -275,10 +289,10 @@ function Video() {
           </div>
         </div>
         <div className="w-[34%] mt-2.5 pl-6 flex flex-col gap-3 overflow-y-scroll  max-h-[150vh]">
-          {videos?.map((video) => (
+          {allVideos?.map((video) => (
             <Link to={`/video/${video?._id}`}>
               <div key={video?._id} className="flex  gap-3">
-                <div className="w-[40%]  h-[17vh]">
+                <div className="w-[42%]  h-[16vh]">
                   <img
                     src={video?.thumbnailUrl}
                     alt=""
