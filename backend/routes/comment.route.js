@@ -1,4 +1,4 @@
-import { createComment, deleteComment, fetchComment, updateComment } from "../controllers/comment.controller.js";
+import { createComment, deleteComment, fetchComment, fetchCommentByVideoId, updateComment } from "../controllers/comment.controller.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
 
 
@@ -7,4 +7,5 @@ export function commentRoutr(app){
     app.post("/api/comments",verifyToken,createComment)
     app.put("/api/comments/:commentId",updateComment)
     app.delete("/api/comments/:commentId",deleteComment)
+    app.get("/api/comments/:videoId",fetchCommentByVideoId)
 }
