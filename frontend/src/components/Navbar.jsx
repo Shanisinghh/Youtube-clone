@@ -104,7 +104,7 @@ function Navbar() {
 
   return (
     <>
-      <div className="flex fixed z-50 top-0 left-0 right-0 justify-between md:py-3 py-2 md:px-6  bg-white">
+      <div className="flex fixed z-50 top-0 left-0 right-0 justify-between md:py-3 py-2 md:px-6 mdd:px-4  bg-white">
         <div className="flex  items-center ">
           <div
             onClick={handleMenu}
@@ -114,7 +114,7 @@ function Navbar() {
           </div>
           <div className="cursor-pointer">
             <Link to={"/"}>
-              <img src={logo} alt="logo" className="md:w-28 w-25" />
+              <img src={logo} alt="logo" className=" w-28" />
             </Link>
           </div>
         </div>
@@ -124,13 +124,13 @@ function Navbar() {
             onChange={(e) => setUserInput(e.target.value)}
             value={userInput}
             placeholder="Search"
-            className="outline-none border text-xs py-[5px] md:text-base border-gray-300 mdd:p-1.5 p-0.5 md:px-4 px-2 font-semibold rounded-l-3xl w-[50vw] mdd:w-[31vw] md:w-[40vw] "
+            className="outline-none border text-sm py-[5px] md:text-base border-gray-300 mdd:p-1.5 p-0.5 md:px-4 px-2 font-semibold rounded-l-3xl w-[50vw] mdd:w-[31vw] md:w-[40vw] "
           />
           <button
             onClick={handleSearch}
             className="bg-gray-100 py-[5px] cursor-pointer mdd:p-0.5 md:p-1.5 p-1 mdd:px-4 px-2 md:px-4 rounded-r-3xl outline-none border border-gray-300"
           >
-            <CiSearch className="mdd:text-2xl text-md " />
+            <CiSearch className="mdd:text-2xl text-xl " />
           </button>
           <div
             onClick={handleUserAction}
@@ -142,35 +142,35 @@ function Navbar() {
               user?.user?.avatar && (
                 <img
                   src={user.user.avatar}
-                  className=" mx-1 w-8 rounded-full"
+                  className="  w-21 rounded-full"
                   alt=""
                 />
               )
             )}
           </div>
         </div>
-        <div ref={profileInfo} className="profile flex items-center  gap-1.5">
+        <div ref={profileInfo} className="profile flex items-center   gap-1.5">
           <Link to={"/uploadvideo"}>
-            <button className="flex items-center gap-2 bg-gray-100 md:py-1.5 py-1 px-3 text-sm md:text-base rounded-3xl outline-none border border-gray-300  font-semibold cursor-pointer hover:bg-gray-200">
+            <button className="flex items-center gap-2 bg-gray-100 md:py-1.5 py-1 px-3 text-xs md:text-base rounded-3xl outline-none border border-gray-300  font-semibold cursor-pointer hover:bg-gray-200">
               <FaUpload /> Video
             </button>
           </Link>
           {!channelPage ? (
             <Link to="/chennel">
-              <button className="flex items-center gap-2 bg-gray-100 md:py-1.5 py-1 px-3 text-sm md:text-base rounded-3xl outline-none border border-gray-300  font-semibold cursor-pointer hover:bg-gray-200">
+              <button className="flex items-center gap-2 bg-gray-100 md:py-1.5 py-1 px-3 text-xs md:text-base rounded-3xl outline-none border border-gray-300  font-semibold cursor-pointer hover:bg-gray-200">
                 Create chennel
               </button>
             </Link>
           ) : (
             <Link to="/viewchannel">
-              <button className="flex items-center gap-2 bg-gray-100 md:py-1.5 py-1 px-3 text-sm md:text-base rounded-3xl outline-none border border-gray-300  font-semibold cursor-pointer hover:bg-gray-200">
+              <button className="flex items-center gap-2 bg-gray-100 md:py-1.5 py-1 px-3 text-xs md:text-base rounded-3xl outline-none border border-gray-300  font-semibold cursor-pointer hover:bg-gray-200">
                 View chennel
               </button>
             </Link>
           )}
           {!loginPage ? (
             <Link to="/login">
-              <button className="flex items-center gap-2 text-sm md:text-base bg-gray-100 md:py-[3px] py-1 px-3 md:px-0 text-blue-700 md:pr-2.5 rounded-3xl outline-none border border-gray-300  font-semibold cursor-pointer hover:bg-gray-200">
+              <button className="flex items-center gap-2 text-xs md:text-base bg-gray-100 md:py-[3px] py-1 px-3 md:px-0 text-blue-700 md:pr-2.5 rounded-3xl outline-none border border-gray-300  font-semibold cursor-pointer hover:bg-gray-200">
                 <FaRegCircleUser className="text-3xl hidden md:block text-blue-700" />
                 Sign in
               </button>
@@ -178,7 +178,7 @@ function Navbar() {
           ) : (
             <Link to="/login">
               <button
-                className="flex text-[red] md:pr-2.5 text-sm  px-3 md:px-0  py-1 md:py-0 md:text-base items-center gap-2 bg-gray-100  rounded-3xl outline-none border border-gray-300  font-semibold cursor-pointer hover:bg-gray-200"
+                className="flex text-[red] md:pr-2.5 text-xs  px-3 md:px-0  py-1 md:py-0 md:text-base items-center gap-2 bg-gray-100  rounded-3xl outline-none border border-gray-300  font-semibold cursor-pointer hover:bg-gray-200"
                 onClick={handleLogout}
               >
                 <img

@@ -13,13 +13,13 @@ function Home() {
 
   return (
     <>
-      <div className="flex md:mt-17 mt-10 mdd:mt-12 ">
+      <div className=" flex md:mt-17 mt-10 mdd:mt-12 ">
         <div id="sidebar" className="md:w-[20vw] mdd:w-[20vw] h-[100vh]  ">
           <Sidebar className="" />
         </div>
         <div id="main" className=" mdd:w-[100vw] md:w-[80vw]  ">
           <ListItems />
-          <div className="flex flex-wrap mt-12 mdd:gap-1 mdd:justify-center  md:gap-4">
+          <div className=" flex flex-wrap mt-3 mdd:gap-1 mdd:justify-center  md:gap-4">
             {videos?.map((video) => (
               <Link to={`/video/${video?._id}`}>
                 <div

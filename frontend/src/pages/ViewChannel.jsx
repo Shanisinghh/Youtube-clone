@@ -32,26 +32,26 @@ function ViewChannel() {
   console.log(filteredVideos.length);
   return (
     <>
-      <div className="flex mt-17 ">
-        <div id="sidebar" className="w-[20vw] h-[100vh]">
+      <div className="flex md:mt-17 mt-15">
+        <div id="sidebar" className="mdd:w-[40vw] md:w-[20vw]  h-[100vh]">
           <Sidebar />
         </div>
-        <div id="main" className="w-[80vw] h-[100vh]">
+        <div id="main" className="md:w-[80vw] m-auto  h-[100vh]">
           <div className="w-full">
             <img
               src={userData?.user?.channels[0]?.channelBanner} // ← Use your uploaded banner URL or host locally
               alt="channel Banner"
-              className="w-[99%] m-auto  rounded-2xl h-[170px] object-cover"
+              className="w-[97%] m-auto h-[90px] mdd:h-[160px] rounded-2xl md:h-[170px] object-fill "
             />
           </div>
-          <div className="px-4 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="px-4 py-4 flex md:flex-col sm:flex-row items-start sm:items-center gap-4">
             <img
               src={userData?.user?.avatar}
-              alt="Zee TV Logo"
-              className="w-30 h-30 rounded-full border"
+              alt="Avatar"
+              className="md:w-30 md:h-30  h-20 w-20 rounded-full border"
             />
             <div className="flex-1">
-              <h1 className="text-2xl font-semibold">
+              <h1 className="mdd:text-3xl text-2xl font-bold line-clamp-1">
                 {userData?.user?.channels[0]?.channelName}{" "}
                 <span className="text-black/60">✔</span>
               </h1>
@@ -59,7 +59,7 @@ function ViewChannel() {
                 {userData?.user?.channels[0]?.subscribers}  subscribers ·{" "}
                 {filteredVideos.length} videos
               </p>
-              <p className="text-gray-700 text-sm max-w-xl mt-1">
+              <p className="text-gray-700 mdd:text-sm text-xs max-w-xl mt-1 line-clamp-2">
                 {userData?.user?.channels[0]?.description}
               </p>
               <button className="mt-2 px-4 py-1 cursor-pointer bg-black text-white rounded font-medium hover:bg-gray-800">
@@ -69,13 +69,13 @@ function ViewChannel() {
           </div>
           <div>
             <h1 className="text-xl font-semibold px-4 py-2">Videos</h1>
-            <div className="flex flex-wrap gap-1 py-2">
+            <div className="flex flex-wrap justify-center mdd:justify-start gap-2 mdd:ml-2 py-2">
               {
                 filteredVideos.map((video) => (
                   <Link to={`/video/${video._id}`}>
-                   <div className=" w-66 p-1 shadow-sm rounded-lg">
+                   <div className=" md:w-65 w-86 items-center   shadow-sm rounded-lg">
                     <img
-                      className="w-66 h-35 object-cover rounded-lg mb-2"
+                      className="md:w-65 w-86 md:h-35 h-45 object-cover rounded-lg mb-2"
                       src={video.thumbnailUrl}
                       alt=""
                     />

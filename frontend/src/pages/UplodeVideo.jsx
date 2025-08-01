@@ -78,10 +78,10 @@ function UploadVideo() {
   }
 
   return (
-    <div className="w-[40vw] mt-16 p-4 bg-gray-100 rounded-2xl m-auto">
+    <div className="md:w-[40vw] text-xs md:text-base w-[90vw] mt-16 p-4 bg-gray-100 rounded-2xl m-auto">
       <h3
         ref={headingRef}
-        className="text-2xl text-black font-bold text-center mb-4"
+        className="md:text-2xl text-xl text-black font-bold text-center mb-4"
       >
         Upload Video
       </h3>

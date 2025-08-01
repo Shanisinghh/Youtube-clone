@@ -79,10 +79,10 @@ function Chennel() {
 
   return (
     <>
-      <div className="w-[40vw] mt-17 p-4 bg-gray-100  rounded-2xl m-auto">
+      <div className="md:w-[40vw] w-[90vw] text-xs md:text-base mt-17 p-4 bg-gray-100  rounded-2xl m-auto">
         <h3
           ref={channelHeading}
-          className="text-2xl text-black font-bold m-auto text-center mb-2 w-full"
+          className="text-xl md:text-2xl text-black font-bold m-auto text-center mb-2 w-full"
         >
           Fill channel details
         </h3>

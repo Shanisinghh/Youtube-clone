@@ -30,8 +30,8 @@ body{
     right: 0px;
     background-color: rgb(255, 255, 255);
     z-index: 9999;
-    width: 40vw;
-    height: 16vh;
+    width: 38vw;
+    height: 15vh;
     border-radius: 10px;
     transform: top 0.5s ease-in-out ;
 }

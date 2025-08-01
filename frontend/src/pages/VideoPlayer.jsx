@@ -105,57 +105,54 @@ function Video() {
 
   return (
     <>
-      <div className="mt-16  flex pb-23">
-        <div className="w-[64%] ml-7 mt-2.5   h-[100vh]">
+      <div className="mdd:mt-16 mt-12 flex flex-col mdd:flex-row pb-23">
+        <div className=" mdd:w-[64%] w-[100%] mdd:ml-2.5 md:ml-7 mt-2.5   max-h-[130vh]">
           <div>
-            <video controls width="100%" className="rounded-lg  shadow-lg">
+            <video controls width="100%" className="mdd:rounded-lg  shadow-lg">
               <source src={video?.videoUrl} type="video/mp4" />
             </video>
           </div>
           <div>
-            <h2 className="font-bold text-[18px] mt-2 line-clamp-2">
+            <h2 className="font-bold mdd:text-[20px] text-[17px]  ml-1.5 md:ml-0 mt-2 line-clamp-2">
               {video?.title}
             </h2>
           </div>
           <div>
-            <p className="text-gray-600 text-sm  line-clamp-1">
+            <p className="text-gray-600 mdd:text-sm text-xs ml-1.5 md:ml-0 line-clamp-1">
               {video?.description}
             </p>
-            <p className="text-gray-600 text-sm">
+            <p className="text-gray-600 ml-1.5 md:ml-0 mdd:text-sm text-xs">
               {video?.views || "0"} views | {video?.uploadDate}
             </p>
           </div>
-          <div className="md:flex mt-2 justify-between   items-center ">
+          <div className="md:flex mt-2 ml-1.5 md:ml-0 justify-between   items-center ">
             <div className="flex  items-center justify-between mr-5 md:mr-0 xsm:gap-0.5  gap-3 md:gap-5 md:mb-0  mb-4">
               <div className="flex items-center xsm:gap-1 w-[100%] gap-3 xsm:pr-0 ">
-                <div className="h-11 w-11 rounded-full  bg-gray-700">
+                <div className="h-11  w-11 rounded-full  bg-gray-700">
                   <img
                     src={video?.uploader?.avatar}
                     className="rounded-full w-full h-full object-cover"
                     alt=""
                   />
                 </div>
-                <div className="flex  md:gap-0 md:flex-col">
+                <div className="flex  md:gap-0 flex-col">
                   <h3 className="text-md  font-semibold">
                     {" "}
                     {video?.channelId?.channelName || video?.uploader?.username}
                   </h3>
-                  <p className="font-semibold text-gray-600 ml-1  text-sm">
+                  <p className="font-semibold text-gray-600 ml-1 text-xs mdd:text-sm">
                     {" "}
                     {video?.channelId?.subscribers} subscribers
                   </p>
                 </div>
               </div>
-              <div className="bg-black hover:bg-gray-700 cursor-pointer md:ml-3 ml-9 xsm:ml-0.5 font-semibold text-white px-4 py-1.5 rounded-3xl">
+              <div className="bg-black hover:bg-gray-700 cursor-pointer text-xs md:text-base md:ml-3 ml-9 xsm:ml-0.5 font-semibold text-white px-4 mdd:py-1.5 py-1 rounded-3xl">
                 subscribe
               </div>
             </div>
-            <div className="flex xsm:overflow-x-scroll  md:overflow-x-hidden  xsm:hide-scroll-bar gap-2 text-md">
-              <div className="bg-gray-100 cursor-pointer hover:bg-gray-200 flex justify-center items-center font-semibold text-sm px-3 py-1.5 rounded-3xl">
-                <AiOutlineLike className="text-xl mr-1.5" />{" "}
-                <span> {video?.likes} | </span>{" "}
-                <span className="ml-1.5"> {video?.dislikes} </span>
-                <AiOutlineDislike className="text-xl  mx-1.5" />
+            <div className="myscrolbar flex xsm:overflow-x-scroll h-7 mdd:h-9 md:overflow-x-hidden  xsm:hide-scroll-bar gap-2 text-xs mdd:text-base">
+              <div className="bg-gray-100 cursor-pointer hover:bg-gray-200 flex justify-center items-center font-semibold text-xs px-3 mdd:text-base py-1.5 rounded-3xl">
+               <AiOutlineLike className="text-xl " /> <span className="mx-1.5"> {video?.likes} </span> | <span className="mx-1.5">{video?.dislikes}</span><AiOutlineDislike className="text-xl  " />
               </div>
               <div className="bg-gray-100 cursor-pointer hover:bg-gray-200 font-semibold px-4 py-1.5 rounded-3xl flex justify-center items-center  gap-2">
                 <PiShareFatLight className="text-xl" /> Share
@@ -170,11 +167,11 @@ function Video() {
               </div>
             </div>
           </div>
-          <div className="mt-4">
-            <h2 className="font-bold text-xl mt-2 ">
+          <div className="mt-4 ml-1.5 md:ml-0">
+            <h2 className="font-bold mdd:text-xl text-md  mt-2 ">
               {comments?.length} Comments
             </h2>
-            <div className="flex gap-2 items-center mt-4">
+            <div className="flex mdd:gap-2 gap-1 items-center mt-4">
               <div className="h-11 w-11 rounded-full ">
                 {user?.user?.avatar ? (
                   <img
@@ -186,31 +183,31 @@ function Video() {
                   <FaRegCircleUser className="text-4xl text-blue-700" />
                 )}
               </div>
-              <div className="flex  w-[100%]">
+              <div className="flex h-6 mdd:h-7 md:h-9 w-[100%]">
                 <input
                   type="text"
                   onChange={(e) => setCommentInput(e.target.value)}
                   value={commentInput}
                   placeholder="Add a comment..."
-                  className="border-2  border-white border-b-gray-300 outline-none  px-4 py-1.5 w-[84%]"
+                  className="border-2  border-white border-b-gray-300 outline-none text-sm mdd:text-base  mdd:px-4 px-1.5 py-1.5 w-[84%]"
                 />
                 <button
                   onClick={handleComment}
-                  className="bg-black hover:bg-gray-700 cursor-pointer font-semibold text-white px-4 py-1.5 rounded-3xl"
+                  className="bg-black hover:bg-gray-700 mr-1 cursor-pointer text-xs md:text-base md:ml-3 ml-9 xsm:ml-0.5 font-semibold text-white px-4 mdd:py-1.5 py-1 rounded-3xl"
                 >
                   Comment
                 </button>
               </div>
             </div>
 
-            <div className="flex flex-col gap-1">
+            <div className="myscrolbar flex flex-col max-h-[50vh] overflow-y-scroll gap-1">
               {comments?.map((comment) => (
                 <div>
                   {comment?.user._id == user?.user?._id ? (
                     <div key={comment?._id} className="mt-4 w-[100%]">
-                      <div className="flex">
+                      <div className="flex items-center mdd:items-start">
                         <div className="flex gap-2 items-center w-[85%]">
-                          <div className="h-11 w-11 rounded-full   bg-gray-100">
+                          <div className="mdd:h-11 h-9 mdd:w-11 w-10 rounded-full   bg-gray-100">
                             <img
                               src={comment?.user?.avatar}
                               className="w-full h-full rounded-full"
@@ -221,7 +218,7 @@ function Video() {
                             <div>
                               <h3 className="font-semibold text-sm">
                                 @{comment?.user?.username} |{" "}
-                                <span className="text-gray-500 text-sm">
+                                <span className="text-gray-500 mdd:text-sm text-xs">
                                   {comment?.timestamp
                                     .split("T")[0]
                                     .split("-")
@@ -229,22 +226,22 @@ function Video() {
                                     .join("-")}
                                 </span>
                               </h3>
-                              <p className="text-md text-gray-500 line-clamp-2">
+                              <p className="mdd:text-md text-sm text-gray-500 line-clamp-2">
                                 {comment?.text}
                               </p>
                             </div>
                           </div>
                         </div>
-                        <div className="flex gap-2 items-center">
+                        <div className="flex flex-col md:flex-row mdd:gap-2 gap-1 items-center">
                           <button
                             onClick={() => handleEdit(comment)}
-                            className="flex cursor-pointer hover:scale-105  justify-center items-center text-md text-[blue]"
+                            className="flex cursor-pointer hover:scale-105  justify-center items-center xsm:text-xs mdd:text-[15px]  text-[blue]"
                           >
                             <FiEdit /> Edit
                           </button>
                           <button
                             onClick={() => handleDelete(comment?._id)}
-                            className="flex cursor-pointer hover:scale-105 items-center text-md text-[red]"
+                            className="flex cursor-pointer hover:scale-105 items-center mdd:text-[15px] text-xs text-[red]"
                           >
                             <AiOutlineDelete /> Delete
                           </button>
@@ -255,7 +252,7 @@ function Video() {
                     <div key={comment?._id} className="mt-4 w-[100%]">
                       <div className="flex">
                         <div className="flex gap-2 items-center w-[95%]">
-                          <div className="h-11 w-11 rounded-full   bg-gray-100">
+                          <div className="mdd:h-11 h-9 mdd:w-11 w-10  rounded-full   bg-gray-100">
                             <img
                               src={comment?.user?.avatar}
                               className="rounded-full w-full h-full"
@@ -266,7 +263,7 @@ function Video() {
                             <div>
                               <h3 className="font-semibold text-sm">
                                 @{comment?.user?.username} |{" "}
-                                <span className="text-gray-500 text-sm">
+                                <span className="text-gray-500 mdd:text-sm text-xs">
                                   {comment?.timestamp
                                     .split("T")[0]
                                     .split("-")
@@ -274,7 +271,7 @@ function Video() {
                                     .join("-")}
                                 </span>
                               </h3>
-                              <p className="text-md text-gray-500 line-clamp-2">
+                              <p className="mdd:text-md text-sm text-gray-500 line-clamp-2">
                                 {comment?.text}
                               </p>
                             </div>
@@ -288,11 +285,11 @@ function Video() {
             </div>
           </div>
         </div>
-        <div className="w-[34%] mt-2.5 pl-6 flex flex-col gap-3 overflow-y-scroll  max-h-[150vh]">
+        <div className="myscrolbar mdd:w-[34%] w-[98%] mt-2.5 md:pl-6 flex flex-col  gap-3 mdd:overflow-y-scroll  max-h-[150vh]">
           {allVideos?.map((video) => (
             <Link to={`/video/${video?._id}`}>
-              <div key={video?._id} className="flex  gap-3">
-                <div className="w-[42%]  h-[16vh]">
+              <div key={video?._id} className="flex flex-col md:flex-row ml-[2%] gap-3">
+                <div className="md:w-[42%] w-[100%]  md:h-[16vh] mdd:h-[13vh] h-[25vh]">
                   <img
                     src={video?.thumbnailUrl}
                     alt=""

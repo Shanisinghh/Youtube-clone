@@ -109,10 +109,10 @@ function Login() {
 
   return (
     <div className="flex justify-center mt-17 flex-col items-center ">
-      <div className="w-[40vw] p-4 bg-gray-100 rounded-2xl">
+      <div className="md:w-[40vw] w-[90vw] p-4 text-xs md:text-base bg-gray-100 rounded-xl">
         <h3
           ref={heading}
-          className="text-2xl text-black font-bold m-auto text-center mb-2 w-full"
+          className="md:text-2xl text-xl text-black font-bold m-auto text-center mb-2 w-full"
         >
           {isLogIn ? "LogIn" : "SignUp"}
         </h3>
@@ -154,7 +154,7 @@ function Login() {
               {loginPage ? (
                 <button
                   type="submit"
-                  className="text-white w-63 py-1 bg-green-700 cursor-pointer mt-2.5 rounded-md outline-none border border-gray-300 hover:bg-green-600"
+                  className="text-white md:w-63 w-43 py-1 bg-green-700 cursor-pointer mt-2.5 rounded-md outline-none border border-gray-300 hover:bg-green-600"
                 >
                   Log in
                 </button>
@@ -249,7 +249,7 @@ function Login() {
             <div className="flex justify-center gap-2.5 items-center">
               <button
                 type="submit"
-                className="text-white w-63 py-1 bg-green-700 cursor-pointer mt-2.5 rounded-md outline-none border border-gray-300 hover:bg-green-600"
+                className="text-white md:w-63 w-43 py-1 bg-green-700 cursor-pointer mt-2.5 rounded-md outline-none border border-gray-300 hover:bg-green-600"
               >
                 SignUp
               </button>

@@ -64,7 +64,7 @@ function handleFilter(category) {
 }
 
   return (
-    <div id="main" className="myscrolbar  flex fixed z-5 top-11 mdd:top-11 md:top-15  bg-white mdd:left-[20%] right-0 overflow-x-scroll hide-scroll-bar px-1">
+    <div id="main" className="myscrolbar  flex sticky z-5 md:w-[100%] xsm:w-[100vw] top-11 mdd:top-11 md:top-15  bg-white right-0 overflow-x-scroll hide-scroll-bar px-1">
       <div className="flex space-x-3 flex-nowrap">
         {categories.map((category) => {
           return (
