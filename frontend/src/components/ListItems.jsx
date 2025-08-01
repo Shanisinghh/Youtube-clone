@@ -2,17 +2,16 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setAllVideos } from "../redux/userSlice";
 import { toast } from "react-toastify";
-import axios, { all } from "axios";
+import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
 
 function ListItems() {
-const allVideos = useSelector((state) => state.user.userInput||[]);
+  const allVideos = useSelector((state) => state.user.userInput || []);
   const [videos, setVideos] = useState([]);
-    const [toggle2, setToggle2] = useState(false);
-// console.log(videos);
-const dispatch = useDispatch();
-console.log(allVideos);
+  const [toggle2, setToggle2] = useState(false);
+  const dispatch = useDispatch();
+  console.log(allVideos);
 
   useEffect(() => {
     axios
@@ -26,10 +25,9 @@ console.log(allVideos);
       });
   }, [toggle2]);
 
-
   const categories = [
     "All",
-      "Education",
+    "Education",
     "Entertainment",
     "Music",
     "Gaming",
@@ -42,33 +40,41 @@ console.log(allVideos);
     "series",
   ];
 
-function handleFilter(category) {
-  console.log(category);
+  function handleFilter(category) {
+    console.log(category);
 
-  if (category === 'All') {
-    dispatch(setAllVideos(videos)); // Reset to all videos
-    return;
+    if (category === "All") {
+      dispatch(setAllVideos(videos)); // Reset to all videos
+      return;
+    }
+
+    const filteredVideos = videos.filter(
+      (video) => video.category === category
+    );
+    console.log(filteredVideos);
+
+    if (filteredVideos.length > 0) {
+      toast.success("Videos found for this category");
+      dispatch(setAllVideos(filteredVideos));
+    } else {
+      toast.error("No videos found for this category");
+      setToggle2((prev) => !prev);
+      dispatch(setAllVideos(videos)); // fallback to all videos
+    }
   }
-
-  const filteredVideos = videos.filter((video) => video.category === category);
-  console.log(filteredVideos);
-
-  if (filteredVideos.length > 0) {
-    toast.success("Videos found for this category");
-    dispatch(setAllVideos(filteredVideos));
-  } else {
-    toast.error("No videos found for this category");
-    setToggle2((prev) => !prev);
-    dispatch(setAllVideos(videos)); // fallback to all videos
-  }
-}
 
   return (
-    <div id="main" className="myscrolbar  flex sticky z-5 md:w-[100%] xsm:w-[100vw] top-11 mdd:top-11 md:top-15  bg-white right-0 overflow-x-scroll hide-scroll-bar px-1">
-      <div className="flex space-x-3 flex-nowrap">
+    <div
+      id="main"
+      className="myscrolbar  flex sticky z-5 md:w-[100%] xsm:w-[100vw] top-11 mdd:top-11 md:top-15  bg-white right-0 overflow-x-scroll hide-scroll-bar px-1"
+    >
+      <div className="flex space-x-3 py-0.5 flex-nowrap">
         {categories.map((category) => {
           return (
-            <div onClick={() => {handleFilter(category)}}
+            <div
+              onClick={() => {
+                handleFilter(category);
+              }}
               key={category}
               className=" flex-none bg-gray-100 hover:bg-gray-300 duration-300 text-sm md:text-base rounded-xl px-4 py-1.5 font-semibold text-black cursor-pointer"
             >

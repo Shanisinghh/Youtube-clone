@@ -1,14 +1,13 @@
-import React, { useState, useRef, use } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
 
 function UploadVideo() {
-   const user = JSON.parse(localStorage.getItem("user"));
-   console.log(user?.user?.channels[0]?._id);
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user?.user?.channels[0]?._id);
 
-    const categories = [
-      "Education",
+  const categories = [
+    "Education",
     "Entertainment",
     "Music",
     "Gaming",
@@ -21,7 +20,6 @@ function UploadVideo() {
     "series",
   ];
 
-
   const [videoData, setVideoData] = useState({
     title: "",
     thumbnailUrl: "",
@@ -32,7 +30,6 @@ function UploadVideo() {
   });
 
   const headingRef = useRef(null);
-
 
   // this function will upload the video
   async function handleUpload(e) {
@@ -51,7 +48,7 @@ function UploadVideo() {
         headingRef.current.style.color = "green";
       }
       toast.success("Video uploaded successfully");
-        window.location.href = "/";
+      window.location.href = "/";
 
       // Clear form
       setVideoData({
@@ -146,7 +143,7 @@ function UploadVideo() {
           required
         />
 
-               <label htmlFor="category" className="font-semibold text-gray-700">
+        <label htmlFor="category" className="font-semibold text-gray-700">
           Category
         </label>
         <select
@@ -157,9 +154,13 @@ function UploadVideo() {
           className="outline-none border border-gray-500 px-2.5 py-1 rounded-md bg-white text-gray-800"
           required
         >
-          <option value="" disabled>Select a category</option>
+          <option value="" disabled>
+            Select a category
+          </option>
           {categories.map((cat) => (
-            <option key={cat} value={cat}>{cat}</option>
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
           ))}
         </select>
 

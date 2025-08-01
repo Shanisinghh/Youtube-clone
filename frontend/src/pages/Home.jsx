@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import Sidebar from "../components/Sidebar";
-import axios from "axios";
-import { useState } from "react";
 import ListItems from "../components/ListItems";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";

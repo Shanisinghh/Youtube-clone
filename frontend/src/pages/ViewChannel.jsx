@@ -6,14 +6,10 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 function ViewChannel() {
-
- 
-
-
   const [videos, setVideos] = useState([]);
   const userData = JSON.parse(localStorage.getItem("user"));
-  console.log(videos);
-  console.log(userData?.user);
+
+  //to fetch all videos
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/videos", { withCredentials: true })
@@ -25,11 +21,11 @@ function ViewChannel() {
         console.error("Fetch error:", err.response?.data || err.message);
       });
   }, []);
-
+  //to filter videos
   const filteredVideos = videos.filter(
     (video) => video?.uploader?._id == userData?.user?._id
   );
-  console.log(filteredVideos.length);
+
   return (
     <>
       <div className="flex md:mt-17 mt-15">
@@ -56,7 +52,7 @@ function ViewChannel() {
                 <span className="text-black/60">✔</span>
               </h1>
               <p className="text-gray-600 text-sm">
-                {userData?.user?.channels[0]?.subscribers}  subscribers ·{" "}
+                {userData?.user?.channels[0]?.subscribers} subscribers ·{" "}
                 {filteredVideos.length} videos
               </p>
               <p className="text-gray-700 mdd:text-sm text-xs max-w-xl mt-1 line-clamp-2">
@@ -70,24 +66,31 @@ function ViewChannel() {
           <div>
             <h1 className="text-xl font-semibold px-4 py-2">Videos</h1>
             <div className="flex flex-wrap justify-center mdd:justify-start gap-2 mdd:ml-2 py-2">
-              {
-                filteredVideos.map((video) => (
-                  <Link to={`/video/${video._id}`}>
-                   <div className=" md:w-65 w-86 items-center   shadow-sm rounded-lg">
+              {filteredVideos.map((video) => (
+                <Link to={`/video/${video._id}`}>
+                  <div className=" md:w-65 w-86 items-center   shadow-sm rounded-lg">
                     <img
                       className="md:w-65 w-86 md:h-35 h-45 object-cover rounded-lg mb-2"
                       src={video.thumbnailUrl}
                       alt=""
                     />
-                    <h2 className="text-[16px] font-semibold line-clamp-1">{video.title}</h2>
-                    <p className="text-[#636262]  text-sm line-clamp-1">{video.description}</p>
+                    <h2 className="text-[16px] font-semibold line-clamp-1">
+                      {video.title}
+                    </h2>
+                    <p className="text-[#636262]  text-sm line-clamp-1">
+                      {video.description}
+                    </p>
                     <p className="text-[#636262] text-sm">
-                      {video.views} views · {new Date(video.uploadDate).toLocaleString().split(",")[0]}
+                      {video.views} views ·{" "}
+                      {
+                        new Date(video.uploadDate)
+                          .toLocaleString()
+                          .split(",")[0]
+                      }
                     </p>
                   </div>
-                  </Link>
-                ))
-              }
+                </Link>
+              ))}
             </div>
           </div>
         </div>

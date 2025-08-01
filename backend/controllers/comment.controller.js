@@ -3,7 +3,7 @@ import { Comment } from "../models/comment.model.js";
 export async function fetchComment(req, res) {
   try {
     const allComments = await Comment.find().populate(
-      "userId",
+      "user",
       "username avatar email"
     );
     if (!allComments) {

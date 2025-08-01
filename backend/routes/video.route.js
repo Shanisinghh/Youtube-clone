@@ -2,7 +2,7 @@ import { cretevideo, deleteVedio, fetchVideos, updateVideo } from "../controller
 import { verifyToken } from "../middleware/authMiddleware.js";
 
 
-
+//routes for videos
 export function vedioRoute(app) {
     app.get("/api/videos", fetchVideos);
     app.post("/api/videos",verifyToken, cretevideo);

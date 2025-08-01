@@ -1,6 +1,7 @@
 import { createChannel, deleteChennel, getChannelById, getChannels, updateChannel } from "../controllers/chennel.controller.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
  
+//routes for channels
 export default function channelRoute(app) {
     app.get("/api/channels",verifyToken, getChannels);
     app.post("/api/channels",verifyToken,createChannel);

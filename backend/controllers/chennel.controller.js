@@ -40,7 +40,6 @@ export async function createChannel(req, res) {
 export async function updateChannel(req, res) {
   try {
     const channelId = req .params.channelId
-    console.log(channelId);
     const updatedChennel =await Channel.findByIdAndUpdate(channelId,req.body,{new:true,runValidators:true})
     if(!updatedChennel){
        return res.status(404).json({massage:"Chennel not found"})

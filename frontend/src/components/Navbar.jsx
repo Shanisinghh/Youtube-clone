@@ -134,15 +134,15 @@ function Navbar() {
           </button>
           <div
             onClick={handleUserAction}
-            className="mdd:hidden pl-2 pr-1 cursor-pointer"
+            className="mdd:hidden pl-2 w-12 pr-1 cursor-pointer"
           >
             {!loginPage ? (
-              <FaRegCircleUser className="text-3xl  text-blue-700" />
+              <FaRegCircleUser className="text-[33px]  text-blue-700" />
             ) : (
               user?.user?.avatar && (
                 <img
                   src={user.user.avatar}
-                  className="  w-21 rounded-full"
+                  className="w-full   rounded-full"
                   alt=""
                 />
               )

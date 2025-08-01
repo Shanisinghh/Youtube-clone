@@ -18,28 +18,33 @@ function Video() {
   const [comments, setComments] = useState([]);
   const [togle, setTogle] = useState(false);
   const [allVideos, setAllVideos] = useState([]);
+  const { videoId } = useParams();
 
+  //to fetch videos from redux
   const videos = useSelector((state) => state.user.userInput);
   const user =
     useSelector((state) => state.user.user) ||
     JSON.parse(localStorage.getItem("user"));
   // console.log(user?.user);
 
-  const { videoId } = useParams();
+  //to fetch all videos
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3000/api/videos/`, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        setAllVideos(response?.data?.allVideos);
+      })
+      .catch((error) => {
+        console.error(
+          "Error fetching comments:",
+          error.response?.data || error.message
+        );
+      });
+  }, []);
 
-  useEffect(()=>{
-    axios.get(`http://localhost:3000/api/videos/`, {
-      withCredentials: true,
-    }).then((response) => {
-      setAllVideos(response?.data?.allVideos);
-    }).catch((error) => {
-      console.error(
-        "Error fetching comments:",
-        error.response?.data || error.message
-      );
-    })
-  },[])
-
+  //to fetch comments based on video id
   useEffect(() => {
     axios
       .get(`http://localhost:3000/api/comments/${videoId}`, {
@@ -56,6 +61,7 @@ function Video() {
       });
   }, [videoId, togle]);
 
+  //to add comments
   async function handleComment(e) {
     e.preventDefault();
     if (commentInput === "") {
@@ -83,11 +89,13 @@ function Video() {
 
   const video = videos.find((video) => video._id === videoId);
 
+  //handle edit comment
   function handleEdit(comment) {
     setCommentInput(comment.text);
     handleDelete(comment._id);
   }
 
+  //handle delete comment
   function handleDelete(commentId) {
     axios
       .delete(`http://localhost:3000/api/comments/${commentId}`, {
@@ -151,8 +159,17 @@ function Video() {
               </div>
             </div>
             <div className="myscrolbar flex xsm:overflow-x-scroll h-7 mdd:h-9 md:overflow-x-hidden  xsm:hide-scroll-bar gap-2 text-xs mdd:text-base">
-              <div className="bg-gray-100 cursor-pointer hover:bg-gray-200 flex justify-center items-center font-semibold text-xs px-3 mdd:text-base py-1.5 rounded-3xl">
-               <AiOutlineLike className="text-xl " /> <span className="mx-1.5"> {video?.likes} </span> | <span className="mx-1.5">{video?.dislikes}</span><AiOutlineDislike className="text-xl  " />
+              <div className="bg-gray-100 cursor-pointer flex justify-center items-center font-semibold text-xs  mdd:text-base py-1.5 rounded-3xl">
+                <span className="flex items-center hover:bg-gray-200 h-9 rounded-l-3xl px-2 ">
+                  <AiOutlineLike className="text-xl " />{" "}
+                  <span className="mx-1.5"> {video?.likes} </span>{" "}
+                </span>
+                |
+                <span className="flex items-center hover:bg-gray-200 h-9 rounded-r-3xl px-2">
+                  {" "}
+                  <span className="mx-1.5">{video?.dislikes}</span>
+                  <AiOutlineDislike className="text-xl  " />
+                </span>
               </div>
               <div className="bg-gray-100 cursor-pointer hover:bg-gray-200 font-semibold px-4 py-1.5 rounded-3xl flex justify-center items-center  gap-2">
                 <PiShareFatLight className="text-xl" /> Share
@@ -288,7 +305,10 @@ function Video() {
         <div className="myscrolbar mdd:w-[34%] w-[98%] mt-2.5 md:pl-6 flex flex-col  gap-3 mdd:overflow-y-scroll  max-h-[150vh]">
           {allVideos?.map((video) => (
             <Link to={`/video/${video?._id}`}>
-              <div key={video?._id} className="flex flex-col md:flex-row ml-[2%] gap-3">
+              <div
+                key={video?._id}
+                className="flex flex-col md:flex-row ml-[2%] gap-3"
+              >
                 <div className="md:w-[42%] w-[100%]  md:h-[16vh] mdd:h-[13vh] h-[25vh]">
                   <img
                     src={video?.thumbnailUrl}
