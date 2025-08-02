@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 function Home() {
   //fetch all videos from redux
   const videos = useSelector((state) => state.user.userInput || []);
-  console.log(videos);
 
   return (
     <>
@@ -19,7 +18,7 @@ function Home() {
           <ListItems />
           <div className=" flex mb-4 flex-wrap mt-3 mdd:gap-1 mdd:justify-center  md:gap-4">
             {videos?.map((video) => (
-              <Link to={`/video/${video?._id}`}>
+              <Link to={`/video/${video?._id}`} key={video?._id}>
                 <div
                   key={video?._id}
                   className="md:rounded-xl mdd:rounded-xl md:h-[44vh] mdd:h-[38vh] h-[43vh] shadow-sm xsm:w-[100vw] mdd:w-[49vw]  md:w-[323px] bg-amber-10  overflow-hidden"

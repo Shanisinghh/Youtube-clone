@@ -1,94 +1,83 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { useRef } from "react";
+import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
-import { login } from "../redux/userSlice";
 import { useEffect } from "react";
 
-function Chennel() {
+function UpdateChannel() {
   const [isViewChannel, setIsViewChannel] = useState(true);
-
+  const channelId = useParams();
   const [channelData, setChennelData] = useState({
     channelName: "",
     description: "",
     channelBanner: "",
   });
 
-  const dispatch = useDispatch();
-
-  console.log(channelData);
-  const channelHeading = useRef(null);
-
-  //fetch user from backend
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/api/user", {
-        withCredentials: true,
-      })
-      .then((res) => {
-        dispatch(login(res.data));
-      })
-      .catch((err) => {
-        console.error("Error fetching user:", err);
-      });
-  }, [isViewChannel]);
-
-  // this function will create the channel
-  async function handleChannel(e) {
-    e.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/channels",
-        channelData,
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
-      setIsViewChannel(!isViewChannel);
-      await axios.put(
-        `http://localhost:3000/api/user/${response.data.channel._id}`,
-        {},
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
-      if (channelHeading.current) {
-        channelHeading.current.innerText = "Channel created successfully";
-        channelHeading.current.style.color = "green";
-      }
-      toast.success("Channel created successfully");
-      setChennelData({ channelName: "", description: "", channelBanner: "" });
-    } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || error.message || "Registration failed";
-      if (channelHeading.current) {
-        channelHeading.current.innerText = errorMessage;
-        channelHeading.current.style.color = "red";
-      }
-      toast.error(errorMessage);
-    }
-  }
-
+  //to update input data
   function handleChannelChange(e) {
     setChennelData({ ...channelData, [e.target.name]: e.target.value });
+  }
+
+  //to fetch channel using channel id
+  const fetchChannel = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/channels/${channelId.channelId}`,
+        {
+          withCredentials: true,
+        }
+      );
+      setChennelData({
+        channelName: response.data.channel.channelName,
+        description: response.data.channel.description,
+        channelBanner: response.data.channel.channelBanner,
+      });
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    fetchChannel();
+  }, []);
+
+  //to update channel
+  function handleUpdateChannel(e) {
+    e.preventDefault();
+    axios
+      .put(
+        `http://localhost:3000/api/channels/${channelId.channelId}`,
+        {
+          channelName: channelData.channelName,
+          description: channelData.description,
+          channelBanner: channelData.channelBanner,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        setIsViewChannel(!isViewChannel);
+        toast.success("Channel updated successfully");
+        setChennelData({
+          channelName: "",
+          description: "",
+          channelBanner: "",
+        });
+      })
+      .catch((error) => {
+        toast.error("Channel update failed");
+      });
   }
 
   return (
     <>
       <div className="md:w-[40vw] w-[90vw] text-xs md:text-base mt-17 p-4 bg-gray-100  rounded-2xl m-auto">
-        <h3
-          ref={channelHeading}
-          className="text-xl md:text-2xl text-black font-bold m-auto text-center mb-2 w-full"
-        >
-          Fill channel details
+        <h3 className="text-xl md:text-2xl text-black font-bold m-auto text-center mb-2 w-full">
+          Update channel details
         </h3>
         <form
           className="flex flex-col gap-2 p-2.5"
-          onSubmit={handleChannel}
+          onSubmit={handleUpdateChannel}
           autoComplete="off"
         >
           <label
@@ -146,7 +135,7 @@ function Chennel() {
                 type="submit"
                 className="text-white w-64 py-1 bg-green-700 cursor-pointer mt-2.5 rounded-md outline-none border border-gray-300 hover:bg-green-600"
               >
-                Create Channel
+                Update Channel
               </button>
             ) : (
               <Link
@@ -162,4 +151,4 @@ function Chennel() {
     </>
   );
 }
-export default Chennel;
+export default UpdateChannel;

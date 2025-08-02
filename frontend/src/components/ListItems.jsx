@@ -7,11 +7,9 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 function ListItems() {
-  const allVideos = useSelector((state) => state.user.userInput || []);
   const [videos, setVideos] = useState([]);
   const [toggle2, setToggle2] = useState(false);
   const dispatch = useDispatch();
-  console.log(allVideos);
 
   //to fetch all videos
   useEffect(() => {
@@ -19,7 +17,6 @@ function ListItems() {
       .get("http://localhost:3000/api/videos", { withCredentials: true })
       .then((result) => {
         setVideos(result.data.allVideos);
-        console.log(result.data.allVideos);
       })
       .catch((err) => {
         console.error("Fetch error:", err.response?.data || err.message);
@@ -43,8 +40,6 @@ function ListItems() {
 
   //to filter videos
   function handleFilter(category) {
-    console.log(category);
-
     if (category === "All") {
       dispatch(setAllVideos(videos));
       return;
@@ -52,7 +47,6 @@ function ListItems() {
     const filteredVideos = videos.filter(
       (video) => video.category === category
     );
-    console.log(filteredVideos);
 
     if (filteredVideos.length > 0) {
       toast.success("Videos found for this category");

@@ -2,12 +2,32 @@ import React from "react";
 import Sidebar from "../components/Sidebar";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { FiEdit } from "react-icons/fi";
+import { AiOutlineDelete } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 function ViewChannel() {
   const [videos, setVideos] = useState([]);
   const userData = JSON.parse(localStorage.getItem("user"));
+  const [toggle, setToggle] = useState(false);
+  const [channelData, setChannelData] = useState("");
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:3000/api/channels/${userData?.user?.channels[0]?._id}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((result) => {
+        setChannelData(result.data.channel);
+      })
+      .catch((err) => {
+        console.error("Fetch error:", err.response?.data || err.message);
+      });
+  }, [toggle]);
 
   //to fetch all videos
   useEffect(() => {
@@ -15,16 +35,31 @@ function ViewChannel() {
       .get("http://localhost:3000/api/videos", { withCredentials: true })
       .then((result) => {
         setVideos(result?.data?.allVideos);
-        console.log(result.data); // Uncomment for debugging
       })
       .catch((err) => {
         console.error("Fetch error:", err.response?.data || err.message);
       });
-  }, []);
+  }, [toggle]);
+
   //to filter videos
   const filteredVideos = videos.filter(
     (video) => video?.uploader?._id == userData?.user?._id
   );
+
+  function handleDelete(videoId) {
+    axios
+      .delete(`http://localhost:3000/api/videos/${videoId}`, {
+        withCredentials: true,
+      })
+      .then((result) => {
+        setToggle(!toggle);
+        toast.success("Video deleted successfully");
+        window.location.href = "/viewchannel";
+      })
+      .catch((err) => {
+        console.error("Fetch error:", err.response?.data || err.message);
+      });
+  }
 
   return (
     <>
@@ -35,7 +70,7 @@ function ViewChannel() {
         <div id="main" className="md:w-[80vw] m-auto  h-[100vh]">
           <div className="w-full">
             <img
-              src={userData?.user?.channels[0]?.channelBanner} // ← Use your uploaded banner URL or host locally
+              src={channelData?.channelBanner} // ← Use your uploaded banner URL or host locally
               alt="channel Banner"
               className="w-[97%] bg-gray-300 m-auto h-[90px] mdd:h-[160px] rounded-2xl md:h-[170px] object-fill "
             />
@@ -48,48 +83,71 @@ function ViewChannel() {
             />
             <div className="flex-1">
               <h1 className="mdd:text-3xl text-2xl font-bold line-clamp-1">
-                {userData?.user?.channels[0]?.channelName}{" "}
+                {channelData?.channelName}{" "}
                 <span className="text-black/60">✔</span>
               </h1>
               <p className="text-gray-600 text-sm">
-                {userData?.user?.channels[0]?.subscribers} subscribers ·{" "}
-                {filteredVideos.length} videos
+                {channelData?.subscribers} subscribers · {filteredVideos.length}{" "}
+                videos
               </p>
               <p className="text-gray-700 mdd:text-sm text-xs max-w-xl mt-1 line-clamp-2">
-                {userData?.user?.channels[0]?.description}
+                {channelData?.description}
               </p>
-              <button className="mt-2 px-4 py-1 cursor-pointer bg-black text-white rounded font-medium hover:bg-gray-800">
-                Subscribe
-              </button>
+              <Link to={`/updatechannel/${userData?.user?.channels[0]?._id}`}>
+                <button className="mt-2 px-4 py-1 cursor-pointer bg-black text-white rounded font-medium hover:bg-gray-800">
+                  Edit Channel
+                </button>
+              </Link>
             </div>
           </div>
           <div>
             <h1 className="text-xl font-semibold px-4 py-2">Videos</h1>
             <div className="flex flex-wrap justify-center mdd:justify-start gap-2 mdd:ml-2 py-2">
               {filteredVideos.map((video) => (
-                <Link to={`/video/${video._id}`}>
-                  <div className=" md:w-65 w-86 items-center p-1   shadow-sm rounded-lg">
-                    <img
-                      className="md:w-65 w-86 bg-gray-300 md:h-35 h-45 object-cover rounded-lg mb-2"
-                      src={video.thumbnailUrl}
-                      alt=""
-                    />
-                    <h2 className="text-[16px] font-semibold line-clamp-1">
-                      {video.title}
-                    </h2>
-                    <p className="text-[#636262]  text-sm line-clamp-1">
-                      {video.description}
-                    </p>
-                    <p className="text-[#636262] text-sm">
-                      {video.views} views ·{" "}
-                      {
-                        new Date(video.uploadDate)
-                          .toLocaleString()
-                          .split(",")[0]
-                      }
-                    </p>
+                <div
+                  key={video._id}
+                  className="flex flex-col pb-2 shadow-sm rounded-lg"
+                >
+                  <Link to={`/video/${video._id}`}>
+                    <div className=" md:w-65 w-86 items-center p-1 ">
+                      <img
+                        className="md:w-65 w-86 bg-gray-300 md:h-35 h-45 object-cover rounded-lg mb-2"
+                        src={video.thumbnailUrl}
+                        alt=""
+                      />
+                      <h2 className="text-[16px] font-semibold line-clamp-1">
+                        {video.title}
+                      </h2>
+                      <p className="text-[#636262]  text-sm line-clamp-1">
+                        {video.description}
+                      </p>
+                      <p className="text-[#636262] text-sm">
+                        {video.views} views ·{" "}
+                        {
+                          new Date(video.uploadDate)
+                            .toLocaleString()
+                            .split(",")[0]
+                        }
+                      </p>
+                    </div>
+                  </Link>
+                  <div className="flex pl-1.5 flex-row gap-3  items-center">
+                    <Link to={`/updatevideo/${video._id}`}>
+                      <button
+                        // onClick={() => handleEdit(video)}
+                        className="flex cursor-pointer hover:scale-105  justify-center items-center   text-[blue]"
+                      >
+                        <FiEdit /> Edit
+                      </button>
+                    </Link>
+                    <button
+                      onClick={() => handleDelete(video?._id)}
+                      className="flex cursor-pointer hover:scale-105 items-center text-[red]"
+                    >
+                      <AiOutlineDelete /> Delete
+                    </button>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           </div>

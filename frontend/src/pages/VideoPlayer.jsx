@@ -19,13 +19,14 @@ function Video() {
   const [togle, setTogle] = useState(false);
   const [allVideos, setAllVideos] = useState([]);
   const { videoId } = useParams();
+  const [isUpdateComment, setIsUpdateComment] = useState(false);
+  const [commentId, setCommentId] = useState("");
 
   //to fetch videos from redux
   const videos = useSelector((state) => state.user.userInput);
   const user =
     useSelector((state) => state.user.user) ||
     JSON.parse(localStorage.getItem("user"));
-  // console.log(user?.user);
 
   //to fetch all videos
   useEffect(() => {
@@ -91,8 +92,29 @@ function Video() {
 
   //handle edit comment
   function handleEdit(comment) {
+    setCommentId(comment._id);
     setCommentInput(comment.text);
-    handleDelete(comment._id);
+    setIsUpdateComment(true);
+  }
+
+  //handle update comment
+  function handleUpdateComment() {
+    console.log(commentId);
+    axios
+      .put(`http://localhost:3000/api/comments/${commentId}`, {
+        text: commentInput,
+      })
+      .then((response) => {
+        setTogle(!togle);
+        setIsUpdateComment(false);
+        toast.success("Comment updated successfully");
+        setCommentInput("");
+      })
+      .catch((error) => {
+        const errorMessage =
+          error.response?.data?.message || "Failed to update comment";
+        toast.error(errorMessage);
+      });
   }
 
   //handle delete comment
@@ -103,6 +125,7 @@ function Video() {
       })
       .then((response) => {
         setTogle(!togle);
+        toast.success("Comment deleted successfully");
       })
       .catch((error) => {
         const errorMessage =
@@ -208,20 +231,29 @@ function Video() {
                   placeholder="Add a comment..."
                   className="border-2  border-white border-b-gray-300 outline-none text-sm mdd:text-base  mdd:px-4 px-1.5 py-1.5 w-[84%]"
                 />
-                <button
-                  onClick={handleComment}
-                  className="bg-black hover:bg-gray-700 mr-1 cursor-pointer text-xs md:text-base md:ml-3 ml-9 xsm:ml-0.5 font-semibold text-white px-4 mdd:py-1.5 py-1 rounded-3xl"
-                >
-                  Comment
-                </button>
+                {!isUpdateComment ? (
+                  <button
+                    onClick={handleComment}
+                    className="bg-black hover:bg-gray-700 mr-1 cursor-pointer text-xs md:text-base md:ml-3 ml-9 xsm:ml-0.5 font-semibold text-white px-4 mdd:py-1.5 py-1 rounded-3xl"
+                  >
+                    Comment
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleUpdateComment}
+                    className="bg-black hover:bg-gray-700 mr-1 cursor-pointer text-xs md:text-base md:ml-3 ml-9 xsm:ml-0.5 font-semibold text-white px-4 mdd:py-1.5 py-1 rounded-3xl"
+                  >
+                    Update
+                  </button>
+                )}
               </div>
             </div>
 
             <div className="myscrolbar flex flex-col max-h-[50vh] overflow-y-scroll gap-1">
               {comments?.map((comment) => (
-                <div>
+                <div key={comment?._id}>
                   {comment?.user._id == user?.user?._id ? (
-                    <div key={comment?._id} className="mt-4 w-[100%]">
+                    <div className="mt-4 w-[100%]">
                       <div className="flex items-center mdd:items-start">
                         <div className="flex gap-2 items-center w-[85%]">
                           <div className="mdd:h-11 h-9 mdd:w-11 w-10 rounded-full   bg-gray-100">
@@ -304,11 +336,8 @@ function Video() {
         </div>
         <div className="myscrolbar mdd:w-[34%] w-[98%] mt-2.5 md:pl-6 flex flex-col  gap-3 mdd:overflow-y-scroll  max-h-[155vh]">
           {allVideos?.map((video) => (
-            <Link to={`/video/${video?._id}`}>
-              <div
-                key={video?._id}
-                className="flex flex-col md:flex-row ml-[2%] gap-3"
-              >
+            <Link key={video?._id} to={`/video/${video?._id}`}>
+              <div className="flex flex-col md:flex-row ml-[2%] gap-3">
                 <div className="md:w-[42%] w-[100%]  md:h-[16vh] mdd:h-[13vh] h-[25vh]">
                   <img
                     src={video?.thumbnailUrl}

@@ -21,8 +21,9 @@ function Navbar() {
 
   //to set all videos in redux
   const dispatch = useDispatch();
-  dispatch(setAllVideos(videos));
-
+  useEffect(() => {
+    dispatch(setAllVideos(videos));
+  }, [videos]);
   const user =
     useSelector((state) => state.user.user) ||
     JSON.parse(localStorage.getItem("user"));
@@ -38,10 +39,10 @@ function Navbar() {
         {},
         { withCredentials: true }
       );
-      // localStorage.removeItem("user");
+      localStorage.removeItem("user");
       dispatch(logout());
       toast.success("User logout successfully");
-      // window.location.replace("/");
+      window.location.replace("/");
     } catch (err) {
       console.error("Fetch error:", err.response?.data || err.message);
     }
@@ -53,7 +54,6 @@ function Navbar() {
       .get("http://localhost:3000/api/videos", { withCredentials: true })
       .then((result) => {
         setVideos(result.data.allVideos);
-        console.log(result.data.allVideos);
       })
       .catch((err) => {
         console.error("Fetch error:", err.response?.data || err.message);

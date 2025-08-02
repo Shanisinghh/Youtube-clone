@@ -1,8 +1,11 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
-function UploadVideo() {
+function UpdateVideo() {
   const user = JSON.parse(localStorage.getItem("user"));
 
   const categories = [
@@ -29,46 +32,42 @@ function UploadVideo() {
   });
 
   const headingRef = useRef(null);
+  const channelId = useParams();
+  const videoId = channelId.channelId;
 
-  // this function will upload the video
-  async function handleUpload(e) {
+  const videos = useSelector((state) => state.user.userInput || []);
+  const video = videos.find((video) => video._id === videoId);
+
+  useEffect(() => {
+    if (video) {
+      setVideoData({
+        title: video.title,
+        thumbnailUrl: video.thumbnailUrl,
+        videoUrl: video.videoUrl,
+        description: video.description,
+        category: video.category,
+      });
+    }
+  }, []);
+
+  //to update video
+  function handleUpdate(e) {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/videos",
-        videoData,
-        {
+      axios
+        .put(`http://localhost:3000/api/videos/${videoId}`, videoData, {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
-      );
-      if (headingRef.current) {
-        headingRef.current.innerText = "Video uploaded successfully";
-        headingRef.current.style.color = "green";
-      }
-      toast.success("Video uploaded successfully");
-      window.location.href = "/viewchannel";
-
-      // Clear form
-      setVideoData({
-        title: "",
-        thumbnailUrl: "",
-        videoUrl: "",
-        description: "",
-        category: "",
-      });
+        })
+        .then((res) => {
+          toast.success("Video updated successfully");
+          window.location.href = "/viewchannel";
+        });
     } catch (error) {
-      const errMsg =
-        error.response?.data?.message || error.message || "Upload failed";
-      if (headingRef.current) {
-        headingRef.current.innerText = errMsg;
-        headingRef.current.style.color = "red";
-      }
-      toast.error(errMsg);
+      toast.error("Video update failed");
     }
   }
 
-  // this function will handle the change
   function handleChange(e) {
     setVideoData({ ...videoData, [e.target.name]: e.target.value });
   }
@@ -79,10 +78,10 @@ function UploadVideo() {
         ref={headingRef}
         className="md:text-2xl text-xl text-black font-bold text-center mb-4"
       >
-        Upload Video
+        Update Video Details
       </h3>
       <form
-        onSubmit={handleUpload}
+        onSubmit={handleUpdate}
         className="flex flex-col gap-2.5"
         autoComplete="off"
       >
@@ -167,11 +166,11 @@ function UploadVideo() {
           type="submit"
           className="text-white w-64 py-1 bg-blue-700 cursor-pointer mt-3 mx-auto rounded-md hover:bg-blue-600"
         >
-          Upload Video
+          Update Video
         </button>
       </form>
     </div>
   );
 }
 
-export default UploadVideo;
+export default UpdateVideo;
