@@ -1,3 +1,5 @@
+
+// Middleware to validate email and password
 export function validateEmail(req, res, next) {
   const { email, password } = req.body;
 

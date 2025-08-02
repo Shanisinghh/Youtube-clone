@@ -113,7 +113,7 @@ function Video() {
 
   return (
     <>
-      <div className="mdd:mt-16 mt-12 flex flex-col mdd:flex-row pb-23">
+      <div className="mdd:mt-16 mt-12 flex flex-col mdd:flex-row ">
         <div className=" mdd:w-[64%] w-[100%] mdd:ml-2.5 md:ml-7 mt-2.5   max-h-[130vh]">
           <div>
             <video controls width="100%" className="mdd:rounded-lg  shadow-lg">
@@ -136,7 +136,7 @@ function Video() {
           <div className="md:flex mt-2 ml-1.5 md:ml-0 justify-between   items-center ">
             <div className="flex  items-center justify-between mr-5 md:mr-0 xsm:gap-0.5  gap-3 md:gap-5 md:mb-0  mb-4">
               <div className="flex items-center xsm:gap-1 w-[100%] gap-3 xsm:pr-0 ">
-                <div className="h-11  w-11 rounded-full  bg-gray-700">
+                <div className="h-11  w-11 rounded-full  bg-gray-300">
                   <img
                     src={video?.uploader?.avatar}
                     className="rounded-full w-full h-full object-cover"
@@ -193,7 +193,7 @@ function Video() {
                 {user?.user?.avatar ? (
                   <img
                     src={user?.user?.avatar}
-                    className="rounded-full"
+                    className="rounded-full bg-gray-300"
                     alt=""
                   />
                 ) : (
@@ -227,7 +227,7 @@ function Video() {
                           <div className="mdd:h-11 h-9 mdd:w-11 w-10 rounded-full   bg-gray-100">
                             <img
                               src={comment?.user?.avatar}
-                              className="w-full h-full rounded-full"
+                              className="w-full h-full rounded-full bg-gray-300"
                               alt=""
                             />
                           </div>
@@ -272,7 +272,7 @@ function Video() {
                           <div className="mdd:h-11 h-9 mdd:w-11 w-10  rounded-full   bg-gray-100">
                             <img
                               src={comment?.user?.avatar}
-                              className="rounded-full w-full h-full"
+                              className="rounded-full w-full h-full bg-gray-300"
                               alt=""
                             />
                           </div>
@@ -302,7 +302,7 @@ function Video() {
             </div>
           </div>
         </div>
-        <div className="myscrolbar mdd:w-[34%] w-[98%] mt-2.5 md:pl-6 flex flex-col  gap-3 mdd:overflow-y-scroll  max-h-[150vh]">
+        <div className="myscrolbar mdd:w-[34%] w-[98%] mt-2.5 md:pl-6 flex flex-col  gap-3 mdd:overflow-y-scroll  max-h-[155vh]">
           {allVideos?.map((video) => (
             <Link to={`/video/${video?._id}`}>
               <div
@@ -313,7 +313,7 @@ function Video() {
                   <img
                     src={video?.thumbnailUrl}
                     alt=""
-                    className="w-full h-full rounded-md"
+                    className="w-full h-full rounded-md bg-gray-300"
                   />
                 </div>
                 <div className="w-[60%]">

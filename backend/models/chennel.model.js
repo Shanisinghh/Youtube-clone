@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+// Channel Schema
 const chennelSchema = new mongoose.Schema({
   channelName: String,
   owner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },

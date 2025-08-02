@@ -17,21 +17,21 @@ function Home() {
         </div>
         <div id="main" className=" mdd:w-[100vw] md:w-[80vw]  ">
           <ListItems />
-          <div className=" flex flex-wrap mt-3 mdd:gap-1 mdd:justify-center  md:gap-4">
+          <div className=" flex mb-4 flex-wrap mt-3 mdd:gap-1 mdd:justify-center  md:gap-4">
             {videos?.map((video) => (
               <Link to={`/video/${video?._id}`}>
                 <div
                   key={video?._id}
-                  className="md:rounded-xl mdd:rounded-xl md:h-[40vh] mdd:h-[38vh] h-[45vh] shadow-sm xsm:w-[100vw] mdd:w-[49vw]  md:w-[323px] bg-amber-10  overflow-hidden"
+                  className="md:rounded-xl mdd:rounded-xl md:h-[44vh] mdd:h-[38vh] h-[43vh] shadow-sm xsm:w-[100vw] mdd:w-[49vw]  md:w-[323px] bg-amber-10  overflow-hidden"
                 >
                   <img
-                    className="h-[28vh] w-full object-cover  mdd:rounded-xl"
+                    className="h-[28vh] bg-gray-300 w-full object-cover  mdd:rounded-xl"
                     src={video?.thumbnailUrl}
                     alt="Video Thumbnail"
                   />
                   <div className="flex px-2 pt-2 gap-3">
                     <img
-                      className="h-11 w-11 text-[#636262] rounded-full object-cover"
+                      className="h-11 w-11 text-[#636262] bg-gray-300 rounded-full object-cover"
                       src={video?.uploader?.avatar}
                       alt=" Avatar"
                     />

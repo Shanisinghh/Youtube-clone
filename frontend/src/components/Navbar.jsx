@@ -38,7 +38,7 @@ function Navbar() {
         {},
         { withCredentials: true }
       );
-      localStorage.removeItem("user");
+      // localStorage.removeItem("user");
       dispatch(logout());
       toast.success("User logout successfully");
       // window.location.replace("/");
@@ -124,7 +124,7 @@ function Navbar() {
             onChange={(e) => setUserInput(e.target.value)}
             value={userInput}
             placeholder="Search"
-            className="outline-none border text-sm py-[5px] md:text-base border-gray-300 mdd:p-1.5 p-0.5 md:px-4 px-2 font-semibold rounded-l-3xl w-[50vw] mdd:w-[31vw] md:w-[40vw] "
+            className="outline-none border text-sm py-[5px] md:text-base border-gray-300 md:p-1.5 mdd:p-[4px] p-0.5 mdd:px-4 md:px-4 px-2 font-semibold rounded-l-3xl w-[50vw] mdd:w-[31vw] md:w-[40vw] "
           />
           <button
             onClick={handleSearch}
@@ -176,14 +176,14 @@ function Navbar() {
               </button>
             </Link>
           ) : (
-            <Link to="/login">
+            <Link to="/">
               <button
-                className="flex text-[red] md:pr-2.5 text-xs  px-3 md:px-0  py-1 md:py-0 md:text-base items-center gap-2 bg-gray-100  rounded-3xl outline-none border border-gray-300  font-semibold cursor-pointer hover:bg-gray-200"
+                className="flex text-[red] mdd:pr-2.5 md:pr-2.5 text-xs  px-3 md:px-0 mdd:px-0  py-1  mdd:py-0 md:text-base items-center gap-2 bg-gray-100  rounded-3xl outline-none border border-gray-300  font-semibold cursor-pointer hover:bg-gray-200"
                 onClick={handleLogout}
               >
                 <img
                   src={user.user.avatar}
-                  className=" h-9 rounded-full hidden md:block"
+                  className=" h-9 mdd:h-6  md:h-9 rounded-full hidden mdd:block"
                   alt=""
                 />{" "}
                 Log out

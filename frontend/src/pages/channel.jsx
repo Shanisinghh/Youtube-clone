@@ -148,6 +148,7 @@ function Chennel() {
               >
                 Create Channel
               </button>
+              
             ) : (
               <Link
                 to="/viewchannel"

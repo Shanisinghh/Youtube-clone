@@ -37,14 +37,14 @@ function ViewChannel() {
             <img
               src={userData?.user?.channels[0]?.channelBanner} // ← Use your uploaded banner URL or host locally
               alt="channel Banner"
-              className="w-[97%] m-auto h-[90px] mdd:h-[160px] rounded-2xl md:h-[170px] object-fill "
+              className="w-[97%] bg-gray-300 m-auto h-[90px] mdd:h-[160px] rounded-2xl md:h-[170px] object-fill "
             />
           </div>
           <div className="px-4 py-4 flex md:flex-col sm:flex-row items-start sm:items-center gap-4">
             <img
               src={userData?.user?.avatar}
               alt="Avatar"
-              className="md:w-30 md:h-30  h-20 w-20 rounded-full border"
+              className="md:w-30 md:h-30 bg-gray-300 h-20 w-20 rounded-full border"
             />
             <div className="flex-1">
               <h1 className="mdd:text-3xl text-2xl font-bold line-clamp-1">
@@ -68,9 +68,9 @@ function ViewChannel() {
             <div className="flex flex-wrap justify-center mdd:justify-start gap-2 mdd:ml-2 py-2">
               {filteredVideos.map((video) => (
                 <Link to={`/video/${video._id}`}>
-                  <div className=" md:w-65 w-86 items-center   shadow-sm rounded-lg">
+                  <div className=" md:w-65 w-86 items-center p-1   shadow-sm rounded-lg">
                     <img
-                      className="md:w-65 w-86 md:h-35 h-45 object-cover rounded-lg mb-2"
+                      className="md:w-65 w-86 bg-gray-300 md:h-35 h-45 object-cover rounded-lg mb-2"
                       src={video.thumbnailUrl}
                       alt=""
                     />

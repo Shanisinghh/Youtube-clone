@@ -13,6 +13,7 @@ function ListItems() {
   const dispatch = useDispatch();
   console.log(allVideos);
 
+  //to fetch all videos
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/videos", { withCredentials: true })
@@ -40,14 +41,14 @@ function ListItems() {
     "series",
   ];
 
+  //to filter videos
   function handleFilter(category) {
     console.log(category);
 
     if (category === "All") {
-      dispatch(setAllVideos(videos)); // Reset to all videos
+      dispatch(setAllVideos(videos));
       return;
     }
-
     const filteredVideos = videos.filter(
       (video) => video.category === category
     );
@@ -59,7 +60,7 @@ function ListItems() {
     } else {
       toast.error("No videos found for this category");
       setToggle2((prev) => !prev);
-      dispatch(setAllVideos(videos)); // fallback to all videos
+      dispatch(setAllVideos(videos));
     }
   }
 

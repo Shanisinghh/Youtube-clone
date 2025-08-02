@@ -18,6 +18,7 @@ export const userSlice = createSlice({
         },
         logout: (state) => {
             state.user = null;
+            localStorage.setItem("user", null);
         },
         setAllVideos: (state, action) => {
             state.userInput = action.payload;
