@@ -14,7 +14,7 @@ function ListItems() {
   //to fetch all videos
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/videos", { withCredentials: true })
+      .get("https://youtube-clone0114.onrender.com/api/videos", { withCredentials: true })
       .then((result) => {
         setVideos(result.data.allVideos);
       })

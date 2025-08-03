@@ -31,7 +31,7 @@ function Video() {
   //to fetch all videos
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/api/videos/`, {
+      .get(`https://youtube-clone0114.onrender.com/api/videos/`, {
         withCredentials: true,
       })
       .then((response) => {
@@ -48,7 +48,7 @@ function Video() {
   //to fetch comments based on video id
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/api/comments/${videoId}`, {
+      .get(`https://youtube-clone0114.onrender.com/api/comments/${videoId}`, {
         withCredentials: true,
       })
       .then((response) => {
@@ -71,7 +71,7 @@ function Video() {
     }
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/comments",
+        "https://youtube-clone0114.onrender.com/api/comments",
         { text: commentInput, videoId },
         {
           headers: { "Content-Type": "application/json" },
@@ -101,7 +101,7 @@ function Video() {
   function handleUpdateComment() {
     console.log(commentId);
     axios
-      .put(`http://localhost:3000/api/comments/${commentId}`, {
+      .put(`https://youtube-clone0114.onrender.com/api/comments/${commentId}`, {
         text: commentInput,
       })
       .then((response) => {
@@ -120,7 +120,7 @@ function Video() {
   //handle delete comment
   function handleDelete(commentId) {
     axios
-      .delete(`http://localhost:3000/api/comments/${commentId}`, {
+      .delete(`https://youtube-clone0114.onrender.com/api/comments/${commentId}`, {
         withCredentials: true,
       })
       .then((response) => {

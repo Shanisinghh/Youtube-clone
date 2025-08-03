@@ -22,7 +22,7 @@ function UpdateChannel() {
   const fetchChannel = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/channels/${channelId.channelId}`,
+        `https://youtube-clone0114.onrender.com/api/channels/${channelId.channelId}`,
         {
           withCredentials: true,
         }
@@ -44,7 +44,7 @@ function UpdateChannel() {
     e.preventDefault();
     axios
       .put(
-        `http://localhost:3000/api/channels/${channelId.channelId}`,
+        `https://youtube-clone0114.onrender.com/api/channels/${channelId.channelId}`,
         {
           channelName: channelData.channelName,
           description: channelData.description,

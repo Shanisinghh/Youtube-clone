@@ -55,7 +55,7 @@ function UpdateVideo() {
     e.preventDefault();
     try {
       axios
-        .put(`http://localhost:3000/api/videos/${videoId}`, videoData, {
+        .put(`https://youtube-clone0114.onrender.com/api/videos/${videoId}`, videoData, {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
         })

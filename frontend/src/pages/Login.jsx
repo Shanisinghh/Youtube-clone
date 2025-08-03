@@ -30,7 +30,7 @@ function Login() {
   // this function will fetch the user from the backend
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/user", {
+      .get("https://youtube-clone0114.onrender.com/api/user", {
         withCredentials: true,
       })
       .then((res) => {
@@ -46,7 +46,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/login",
+        "https://youtube-clone0114.onrender.com/api/login",
         loginData,
         {
           headers: { "Content-Type": "application/json" },
@@ -76,7 +76,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/register",
+        "https://youtube-clone0114.onrender.com/api/register",
         signUpData,
         {
           headers: { "Content-Type": "application/json" },

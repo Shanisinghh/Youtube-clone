@@ -35,7 +35,7 @@ function Navbar() {
   async function handleLogout() {
     try {
       const result = await axios.post(
-        "http://localhost:3000/api/logout",
+        "https://youtube-clone0114.onrender.com/api/logout",
         {},
         { withCredentials: true }
       );
@@ -51,7 +51,7 @@ function Navbar() {
   //to get all videos
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/videos", { withCredentials: true })
+      .get("https://youtube-clone0114.onrender.com/api/videos", { withCredentials: true })
       .then((result) => {
         setVideos(result.data.allVideos);
       })
