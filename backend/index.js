@@ -13,9 +13,13 @@ const app = express();
 
 app.use(cookieParser());
 app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true,
-}));
+    origin: [
+      "http://localhost:5173",
+      "https://youtube-clone0114.netlify.app",
+      "https://youtube-clone0114.vercel.app",
+    ],
+    credentials: true,
+  }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -25,7 +29,7 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT ;
 mongoose
-  .connect("mongodb://localhost:27017/youtube-clone")
+  .connect("mongodb+srv://shanikushwaha8121:62ecisCbsSv1Lj7H@cluster0.lc2nups.mongodb.net/youtube-clone")
   .then(() => {
     console.log("connected to db");
     app.listen(PORT, () => {
