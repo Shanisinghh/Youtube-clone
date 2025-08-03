@@ -88,3 +88,4 @@ export async function deleteChennel(req, res) {
       .json({ massage: "Internal server error", error: error.massage });
   }
 }
+
