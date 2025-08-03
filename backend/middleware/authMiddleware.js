@@ -1,8 +1,6 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 
-
-// Middleware to verify token
 export async function verifyToken(req, res, next) {
   try {
     const token = req.cookies.token;

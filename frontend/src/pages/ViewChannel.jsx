@@ -16,7 +16,7 @@ function ViewChannel() {
   useEffect(() => {
     axios
       .get(
-        `https://youtube-clone0114.onrender.com/api/channels/${userData?.user?.channels[0]?._id}`,
+        `http://localhost:3000/api/channels/${userData?.user?.channels[0]?._id}`,
         {
           withCredentials: true,
         }
@@ -32,7 +32,7 @@ function ViewChannel() {
   //to fetch all videos
   useEffect(() => {
     axios
-      .get("https://youtube-clone0114.onrender.com/api/videos", { withCredentials: true })
+      .get("http://localhost:3000/api/videos", { withCredentials: true })
       .then((result) => {
         setVideos(result?.data?.allVideos);
       })
@@ -48,7 +48,7 @@ function ViewChannel() {
 
   function handleDelete(videoId) {
     axios
-      .delete(`https://youtube-clone0114.onrender.com/api/videos/${videoId}`, {
+      .delete(`http://localhost:3000/api/videos/${videoId}`, {
         withCredentials: true,
       })
       .then((result) => {

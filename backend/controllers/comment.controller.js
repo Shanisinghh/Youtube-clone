@@ -1,6 +1,5 @@
 import { Comment } from "../models/comment.model.js";
 
-// Get all comments
 export async function fetchComment(req, res) {
   try {
     const allComments = await Comment.find().populate(
@@ -19,8 +18,6 @@ export async function fetchComment(req, res) {
       .json({ message: "Internal server error", error: error.message });
   }
 }
-
-// Get comments by video id
 export async function fetchCommentByVideoId(req, res) {
   try {
     const videoId = req.params.videoId;
@@ -41,7 +38,6 @@ export async function fetchCommentByVideoId(req, res) {
   }
 }
 
-// Create a new comment
 export async function createComment(req, res) {
   try {
     const newComment = await await Comment.create({
@@ -61,7 +57,6 @@ export async function createComment(req, res) {
   }
 }
 
-// Update a comment
 export async function updateComment(req, res) {
   try {
     const commentId = req.params.commentId;
@@ -81,7 +76,6 @@ export async function updateComment(req, res) {
   }
 }
 
-// Delete a comment
 export async function deleteComment(req, res) {
   try {
     const commentId = req.params.commentId;

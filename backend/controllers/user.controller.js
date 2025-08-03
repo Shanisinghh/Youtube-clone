@@ -2,7 +2,8 @@ import { User } from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
-// User registration
+
+
 export async function userRegister(req, res) {
   try {
     const { username, email, password, avatar, channels } = req.body;
@@ -38,7 +39,8 @@ export async function userRegister(req, res) {
   }
 }
 
-// User login
+
+
 export async function userLogin(req, res) {
   try {
     const { email, password } = req.body;
@@ -61,7 +63,7 @@ export async function userLogin(req, res) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-    res.cookie("token", token);
+    res.cookie("token", token)
     return res.status(200).json({ message: "Login successful", user, token });
   } catch (error) {
     console.error("Login error:", error);
@@ -71,32 +73,24 @@ export async function userLogin(req, res) {
   }
 }
 
-// Fetch all user
+
 export async function fetchUser(req, res) {
-  try {
-    const userId = req.user.id;
-    const user = await User.findById(userId)
-      .select("-password")
-      .populate(
-        "channels",
-        "channelName description channelBanner videos owner subscribers"
-      );
+try {
+   const userId = req.user.id; 
+    const user = await User.findById(userId).select("-password").populate("channels","channelName description channelBanner videos owner subscribers");
     console.log(user);
-    return res.status(200).json({ message: "Fetch user", user });
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Internal server error", error: error.message });
-  }
+  return res.status(200).json({ message: "Fetch user", user }); 
+} catch (error) {
+  return res.status(500).json({ message: "Internal server error", error: error.message });
+}
 }
 
-// Update user
 export async function updateUaer(req, res) {
-  try {
+try {
     const userId = req.user._id;
     const channelId = req.params.channelId;
-    console.log("userId", userId);
-    console.log("channelId", channelId);
+    console.log("userId",userId);
+    console.log("channelId",channelId);
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       {
@@ -105,25 +99,18 @@ export async function updateUaer(req, res) {
       },
       { new: true }
     );
-    return res
-      .status(200)
-      .json({ message: "User updated successfully", updatedUser });
+    return res.status(200).json({ message: "User updated successfully", updatedUser });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Internal server error", error: error.message });
+    return res.status(500).json({ message: "Internal server error", error: error.message });
   }
 }
 
-// User logout
 export function logout(req, res) {
-  try {
-    const token = "";
-    res.cookie("token", token);
-    return res.status(200).json({ message: "Logout successful" });
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Internal server error", error: error.message });
-  }
+try {
+    const token = ""
+     res.cookie("token", token)
+  return res.status(200).json({ message: "Logout successful" });
+} catch (error) {
+  return res.status(500).json({ message: "Internal server error", error: error.message });
+}
 }

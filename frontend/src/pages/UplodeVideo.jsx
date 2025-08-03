@@ -35,7 +35,7 @@ function UploadVideo() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://youtube-clone0114.onrender.com/api/videos",
+        "http://localhost:3000/api/videos",
         videoData,
         {
           headers: { "Content-Type": "application/json" },

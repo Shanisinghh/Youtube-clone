@@ -24,7 +24,7 @@ function Chennel() {
   //fetch user from backend
   useEffect(() => {
     axios
-      .get("https://youtube-clone0114.onrender.com/api/user", {
+      .get("http://localhost:3000/api/user", {
         withCredentials: true,
       })
       .then((res) => {
@@ -40,7 +40,7 @@ function Chennel() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://youtube-clone0114.onrender.com/api/channels",
+        "http://localhost:3000/api/channels",
         channelData,
         {
           headers: { "Content-Type": "application/json" },
@@ -49,7 +49,7 @@ function Chennel() {
       );
       setIsViewChannel(!isViewChannel);
       await axios.put(
-        `https://youtube-clone0114.onrender.com/api/user/${response.data.channel._id}`,
+        `http://localhost:3000/api/user/${response.data.channel._id}`,
         {},
         {
           headers: { "Content-Type": "application/json" },
